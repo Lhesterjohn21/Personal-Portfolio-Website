@@ -331,55 +331,86 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
         return false;
     }
 
-    try {
-        $mail = new PHPMailer(true);
+    $primaryPort = (int)($config['port'] ?? 587);
+    $primaryEnc = strtolower((string)($config['encryption'] ?? 'tls'));
 
-        // Enable detailed SMTP output printed directly to error_log (visible in Render logs)
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Level 2
-        $mail->Debugoutput = static function (string $str, int $level): void {
-            error_log("PHPMailer SMTP [$level]: $str");
-        };
+    $attempts = [
+        ['port' => $primaryPort, 'encryption' => $primaryEnc],
+        ['port' => 465, 'encryption' => 'ssl'],
+        ['port' => 587, 'encryption' => 'tls'],
+    ];
 
-        $mail->isSMTP();
-        $mail->Host       = $config['host'] ?? 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $config['username'] ?? '';
-        $mail->Password   = normalize_mail_password((string)($config['password'] ?? ''));
+    $tried = [];
 
-        $encryption = strtolower((string)($config['encryption'] ?? 'tls'));
-        $port = (int)($config['port'] ?? 587);
+    foreach ($attempts as $attempt) {
+        $port = $attempt['port'];
+        $encryption = $attempt['encryption'];
+        $key = $port . '-' . $encryption;
 
-        if ($encryption === 'ssl' || $port === 465) {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $mail->Port       = $port > 0 ? $port : 465;
-        } else {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = $port > 0 ? $port : 587;
+        if (isset($tried[$key])) {
+            continue;
         }
+        $tried[$key] = true;
 
-        $mail->Timeout    = 20;
-        $mail->CharSet    = 'UTF-8';
+        try {
+            $mail = new PHPMailer(true);
 
-        $fromAddress = !empty($config['from_address']) ? $config['from_address'] : $config['username'];
-        $fromName    = !empty($config['from_name']) ? $config['from_name'] : 'John Lhester Arco';
+            // Enable detailed SMTP output printed directly to error_log (visible in Render logs)
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Level 2
+            $mail->Debugoutput = static function (string $str, int $level): void {
+                error_log("PHPMailer SMTP [$level]: $str");
+            };
 
-        $mail->setFrom($fromAddress, $fromName);
-        $mail->addAddress($to);
+            $mail->isSMTP();
+            $mail->Host       = $config['host'] ?? 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $config['username'] ?? '';
+            $mail->Password   = normalize_mail_password((string)($config['password'] ?? ''));
 
-        if ($replyTo !== '') {
-            $mail->addReplyTo($replyTo, $replyName);
+            if ($encryption === 'ssl' || $port === 465) {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                $mail->Port       = 465;
+            } else {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587;
+            }
+
+            $mail->Timeout    = 20;
+            $mail->CharSet    = 'UTF-8';
+
+            // Permissive SSL options for cloud containers (Render / Docker)
+            $mail->SMTPOptions = [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
+                ],
+            ];
+
+            $fromAddress = !empty($config['from_address']) ? $config['from_address'] : $config['username'];
+            $fromName    = !empty($config['from_name']) ? $config['from_name'] : 'John Lhester Arco';
+
+            $mail->setFrom($fromAddress, $fromName);
+            $mail->addAddress($to);
+
+            if ($replyTo !== '') {
+                $mail->addReplyTo($replyTo, $replyName);
+            }
+
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body    = $htmlBody;
+            $mail->AltBody = $textBody;
+
+            if ($mail->send()) {
+                return true;
+            }
+        } catch (Exception $e) {
+            error_log("PHPMailer Attempt (Port $port, $encryption) Exception: " . $e->getMessage() . ' | PHPMailer ErrorInfo: ' . ($mail->ErrorInfo ?? 'N/A'));
         }
-
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $htmlBody;
-        $mail->AltBody = $textBody;
-
-        return $mail->send();
-    } catch (Exception $e) {
-        error_log('PHPMailer Exception: ' . $e->getMessage() . ' | PHPMailer ErrorInfo: ' . ($mail->ErrorInfo ?? 'N/A'));
-        return false;
     }
+
+    return false;
 }
 
 load_env_file(__DIR__ . '/.env');
