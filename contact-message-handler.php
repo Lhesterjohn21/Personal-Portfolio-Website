@@ -314,6 +314,46 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
 
 function send_email_via_https_api(string $name, string $email, string $subject, string $message, string $targetEmail): bool
 {
+    $web3Key = env_value('WEB3FORMS_KEY', '');
+
+    if ($web3Key !== '') {
+        $url = 'https://api.web3forms.com/submit';
+        $payload = json_encode([
+            'access_key' => $web3Key,
+            'name' => $name,
+            'email' => $email,
+            'subject' => 'Portfolio Inquiry: ' . $subject,
+            'message' => $message,
+            'from_name' => 'Portfolio Visitor'
+        ]);
+
+        if (function_exists('curl_init')) {
+            $ch = curl_init();
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $url,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 8,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Accept: application/json'
+                ]
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode >= 200 && $httpCode < 300 && $response) {
+                $data = json_decode((string)$response, true);
+                if (isset($data['success']) && ($data['success'] === true || $data['success'] === 'true')) {
+                    return true;
+                }
+            }
+        }
+    }
+
     $url = 'https://formsubmit.co/ajax/' . rawurlencode($targetEmail);
 
     $payload = json_encode([
