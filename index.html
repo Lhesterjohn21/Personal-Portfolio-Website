@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  <link rel="icon" type="image/png" href="img/jl.png" />
+  <link rel="shortcut icon" type="image/png" href="img/jl.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="site">
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#home">&lt;<span>/</span>Lhester&gt;</a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="resume-dropdown" id="resumeDropdown">
+          <button class="resume-btn" id="resumeButton" type="button" aria-haspopup="menu" aria-expanded="false">
+            <span class="resume-btn-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <path d="M12 3v11"></path>
+                <path d="M8 11l4 4 4-4"></path>
+                <path d="M5 19h14"></path>
+              </svg>
+            </span>
+            <span>Resume</span>
+          </button>
+          <div class="resume-menu" role="menu" aria-label="Resume download options">
+            <a class="resume-option" role="menuitem" href="img/ArcoResume.pdf" download="JOHN-LHESTER-ARCO-Resume.pdf">
+              <span class="resume-icon pdf">PDF</span>
+              <span class="resume-label">PDF</span>
+            </a>
+            <a class="resume-option" role="menuitem" href="img/reumearco.png" download="JOHN-LHESTER-ARCO-Resume.png">
+              <span class="resume-icon image">IMG</span>
+              <span class="resume-label">Image</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="hero" id="home">
+      <section>
+        <p class="eyebrow">Entry-Level Web Developer Opportunities</p>
+        <h1>Hi, I&#39;m <span class="accent">JOHN LHESTER ARCO</span></h1>
+        <p class="subtitle">Fresh Information Technology Graduate &amp; Aspiring Web Developer</p>
+        <p class="description">
+          Motivated by a passion for creating seamless digital experiences, I build modern, responsive web applications
+          using
+          technologies like React, React Native, Laravel, CodeIgniter, and WordPress.
+        </p>
+        <p class="description">
+          As a motivated fresh graduate, I am seeking an entry-level web development role where I can apply my
+          full-stack
+          foundation, adapt to industry workflows, and deliver practical solutions to meaningful projects.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#projects">See My Projects</a>
+          <a class="button secondary" href="#contact">Let's Talk</a>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Profile code card">
+        <div class="panel-header">
+          <span class="dots" aria-hidden="true">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </span>
+          <span class="file-name">about-me.js</span>
+        </div>
+        <pre class="code" aria-label="Profile summary code">
+<span class="line"><span class="num">1</span><span><span class="syntax-comment">// Entry-Level Web Developer Profile</span></span></span>
+<span class="line"><span class="num">2</span><span><span class="syntax-keyword">const</span> <span class="syntax-name">developer</span> = {</span></span>
+<span class="line"><span class="num">3</span><span>  name: <span class="syntax-string">'JOHN LHESTER ARCO'</span>,</span></span>
+<span class="line"><span class="num">4</span><span>  role: <span class="syntax-string">'Entry-Level Web Developer'</span>,</span></span>
+<span class="line"><span class="num">5</span><span>  education: <span class="syntax-string">'BS IT Graduate'</span>,</span></span>
+<span class="line"><span class="num">6</span><span>  skills: [<span class="syntax-string">'PHP'</span>, <span class="syntax-string">'Laravel'</span>, <span class="syntax-string">'JavaScript'</span>, <span class="syntax-string">'MySQL'</span>],</span></span>
+<span class="line"><span class="num">7</span><span>  goal: <span class="syntax-string">'Build clean &amp; responsive web apps'</span>,</span></span>
+<span class="line"><span class="num">8</span><span>  available_for_hire: <span class="syntax-boolean">true</span></span></span>
+<span class="line"><span class="num">9</span><span>};</span></span>
+        </pre>
+      </aside>
+    </main>
+
+    <section class="page-section" id="about">
+      <hr class="section-divider" aria-hidden="true" />
+      <p class="section-label">// About</p>
+      <h2 class="section-title">A bit about me</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <img src="img/me.jpg" alt="John Lhester Arco graduation photo" />
+        </div>
+        <div>
+          <div class="about-copy">
+            <p>
+              I recently graduated with a Bachelor of Science in Information Technology and am seeking my
+              first opportunity as an Entry-Level Web Developer. I have experience building web applications
+              using Laravel, CodeIgniter, WordPress, and MySQL through academic projects, and I have basic
+              knowledge of React and React Native.
+            </p>
+            <p>
+              I am eager to learn, improve my technical skills, and gain hands-on experience in web development.
+              I enjoy building practical applications, solving problems, and working with others to create reliable and
+              user-friendly solutions.
+            </p>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong>Fresh</strong>
+              <span>out of college</span>
+            </div>
+            <div class="stat">
+              <strong>1</strong>
+              <span>internships done</span>
+            </div>
+            <div class="stat">
+              <strong>5+</strong>
+              <span>personal projects</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="anchor-section" id="skills">
+      <hr class="section-divider" aria-hidden="true" />
+      <div class="skills-heading">
+        <div>
+          <p class="section-label">// Skills</p>
+          <h2 class="section-title">My skill set</h2>
+        </div>
+      </div>
+      <div class="section-shell">
+        <div class="skills-grid">
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M8 9l-4 3 4 3" />
+                <path d="M16 9l4 3-4 3" />
+                <path d="M10 19l4-14" />
+              </svg>
+            </div>
+            <h3>Programming Languages</h3>
+            <p>I&#39;ve learned PHP and JavaScript through my coursework and personal projects, and I continue to
+              improve by building web applications.</p>
+            <div class="skill-tags"><span class="skill-tag">PHP</span><span class="skill-tag">JavaScript</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 6h16v12H4z" />
+                <path d="M4 10h16" />
+                <path d="M8 14h3" />
+              </svg>
+            </div>
+            <h3>Frontend</h3>
+            <p>I create responsive web pages using HTML, CSS, and Bootstrap, and I&#39;m currently learning more about
+              React.</p>
+            <div class="skill-tags"><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span
+                class="skill-tag">Bootstrap</span><span class="skill-tag">React (Basic)</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 18h16" />
+                <path d="M6 6h12v8H6z" />
+                <path d="M10 18v-4" />
+              </svg>
+            </div>
+            <h3>Backend</h3>
+            <p>I&#39;ve worked on backend features using Laravel and CodeIgniter as part of my academic and personal
+              projects.</p>
+            <div class="skill-tags"><span class="skill-tag">Laravel</span><span class="skill-tag">CodeIgniter</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <ellipse cx="12" cy="6" rx="7" ry="3" />
+                <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6" />
+                <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />
+              </svg>
+            </div>
+            <h3>Database</h3>
+            <p>I have basic experience working with MySQL for storing and managing application data.</p>
+            <div class="skill-tags"><span class="skill-tag">MySQL</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="7" y="4" width="10" height="16" rx="2" />
+                <path d="M10 18h4" />
+              </svg>
+            </div>
+            <h3>CMS &amp; Mobile</h3>
+            <p>I&#39;ve built simple websites with WordPress and have started learning React Native to understand mobile
+              application development.</p>
+            <div class="skill-tags"><span class="skill-tag">WordPress</span><span class="skill-tag">React Native
+                (Basic)</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3v18" />
+                <path d="M7 8h10" />
+                <path d="M7 16h10" />
+                <path d="M4 12h16" />
+              </svg>
+            </div>
+            <h3>Tools &amp; Workflow</h3>
+            <p>I&#39;m familiar with using Git, GitHub, Visual Studio Code, NetBeans, and XAMPP while working on my
+              projects.</p>
+            <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span
+                class="skill-tag">VS Code</span><span class="skill-tag">NetBeans</span><span
+                class="skill-tag">XAMPP</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 12h4" />
+                <path d="M16 12h4" />
+                <path d="M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
+                <path d="M9 20h6" />
+              </svg>
+            </div>
+            <h3>Networking</h3>
+            <p>I studied computer networking fundamentals in college and practiced designing and configuring networks
+              using Cisco Packet Tracer.</p>
+            <div class="skill-tags"><span class="skill-tag">Cisco Packet Tracer</span><span class="skill-tag">Basic
+                Routing</span><span class="skill-tag">Switching</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="anchor-section" id="projects">
+      <hr class="section-divider" aria-hidden="true" />
+      <div class="projects-heading">
+        <div>
+          <p class="section-label">// Projects</p>
+          <h2 class="section-title">Things I&#39;ve built</h2>
+        </div>
+      </div>
+      <div class="section-shell">
+        <div class="projects-grid">
+          <article class="project-card">
+            <div class="project-visual wams"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/wams.png" alt="WAMS Screenshot"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">WAMS &mdash; Web-Based Apartment Management System for Efficient Tenant and
+                Facility Administration</h3>
+              <p class="project-description">A comprehensive web-based apartment management system designed to simplify
+                tenant management, lease tracking, billing, maintenance requests, and facility administration for
+                property owners and managers.</p>
+              <div class="project-tags"><span class="project-tag">Laravel</span><span
+                  class="project-tag">PHP</span><span class="project-tag">MySQL</span><span
+                  class="project-tag">Bootstrap</span><span class="project-tag">JavaScript</span></div>
+              <div class="project-links">
+                <a class="project-link github-icon"
+                  href="https://github.com/Lhesterjohn21/WAMS-WEB-BASED-APARTMENT-MANAGEMENT-SYSTEM-FOR-EFFICIENT-TENANT-AND-FACILITY-ADMINISTRATION"
+                  target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg viewBox="0 0 98 96"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual portfolio">
+              <div class="preview-card right">
+                <div class="preview-window"></div>
+                <div class="preview-body">
+                  <div class="mock-title">Hi, I&#39;m Rudy Boringot</div>
+                  <div class="mock-line long"></div>
+                  <div class="mock-line mid"></div>
+                  <div class="mock-panel"></div>
+                </div>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Personal Portfolio Website</h3>
+              <p class="project-description">A personal portfolio website created to showcase my projects, technical
+                skills, and contact information while documenting my journey as an aspiring web developer.</p>
+              <div class="project-tags"><span class="project-tag">Laravel</span><span
+                  class="project-tag">HTML/CSS</span><span class="project-tag">Bootstrap</span><span
+                  class="project-tag">JavaScript</span></div>
+              <div class="project-links">
+                <a class="project-link github-icon" href="#projects" aria-label="Open GitHub link"><svg
+                    viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-visual passaver"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/passaver.png" alt="PASSAVER Screenshot"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">PASSAVER</h3>
+              <p class="project-description">PASSAVER is a browser extension that simplifies credential management by
+                securely storing, generating, and autofilling your usernames and passwords.</p>
+              <div class="project-tags"><span class="project-tag">Browser Extension</span><span
+                  class="project-tag">JavaScript</span><span class="project-tag">HTML/CSS</span><span
+                  class="project-tag">Security</span></div>
+              <div class="project-links">
+                <a class="project-link github-icon" href="#projects" aria-label="Open GitHub link"><svg
+                    viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
+              </div>
+            </div>
+          </article>
+
+
+          <article class="project-card">
+            <div class="project-visual network"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/networking.png" alt="Network Topology Diagram"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Network Topology Diagram</h3>
+              <p class="project-description">A networking exercise covering diagramming, basic routing, switching, and
+                network design using Cisco Packet Tracer.</p>
+              <div class="project-tags"><span class="project-tag">Cisco Packet Tracer</span><span
+                  class="project-tag">Networking</span><span class="project-tag">Topology</span></div>
+              <div class="project-links">
+                <a class="project-link github-icon" href="#projects" aria-label="Open GitHub link"><svg
+                    viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="anchor-section" id="contact">
+      <hr class="section-divider" aria-hidden="true" />
+      <div class="contact-heading">
+        <div>
+          <p class="section-label">// Contact</p>
+          <h2 class="section-title">Give me a shot?</h2>
+        </div>
+      </div>
+      <div class="section-shell">
+        <div class="contact-layout">
+          <form class="contact-form" action="send-message.php" method="post">
+            <div class="contact-row">
+              <div class="field">
+                <label for="contactName">Name</label>
+                <input id="contactName" name="name" type="text" placeholder="Your name" required />
+              </div>
+              <div class="field">
+                <label for="contactEmail">Email</label>
+                <input id="contactEmail" name="email" type="email" placeholder="Your email address" required />
+              </div>
+            </div>
+            <div class="field full">
+              <label for="contactSubject">Subject</label>
+              <input id="contactSubject" name="subject" type="text" placeholder="Project inquiry" required />
+            </div>
+            <div class="field full">
+              <label for="contactMessage">Message</label>
+              <textarea id="contactMessage" name="message" placeholder="Tell me about your project..."
+                required></textarea>
+            </div>
+            <div class="form-status" id="formStatus" aria-live="polite"></div>
+            <button class="send-btn" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 3L10 14" />
+                <path d="M21 3l-7 19-4-8-8-4 19-7z" />
+              </svg>
+              Send Message
+            </button>
+          </form>
+
+          <aside class="contact-side">
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 6h16v12H4z" />
+                  <path d="M4 10l8 5 8-5" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-side-label">Email</div>
+                <div class="contact-side-value">johnlhesterarco21@gmail.com</div>
+              </div>
+            </div>
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z" />
+                  <circle cx="12" cy="10" r="2.5" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-side-label">Location</div>
+                <div class="contact-side-value">Pilli, Camarines Sur</div>
+              </div>
+            </div>
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 16.92V21a1 1 0 0 1-1.09 1A19.8 19.8 0 0 1 3 5.09 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75 12.4 12.4 0 0 0 .7 2.11 1 1 0 0 1-.23 1L8.21 9.79a16 16 0 0 0 6 6l1.93-1.35a1 1 0 0 1 1-.12 12.4 12.4 0 0 0 2.11.7 1 1 0 0 1 .75 1z" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-side-label">Phone</div>
+                <div class="contact-side-value">09917972507</div>
+              </div>
+            </div>
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-side-label">Availability</div>
+                <div class="contact-side-value">Open for entry-level web developer opportunities.</div>
+              </div>
+            </div>
+
+            <div class="find-me-section">
+              <div class="find-me-title">Find me on</div>
+              <div class="contact-socials">
+                <a class="social-icon-link" href="https://github.com/Lhesterjohn21" target="_blank"
+                  rel="noopener noreferrer" aria-label="GitHub">
+                  <svg viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg>
+                </a>
+                <a class="social-icon-link" href="https://www.facebook.com/lhesterjohn.21" target="_blank"
+                  rel="noopener noreferrer" aria-label="Facebook">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
+                </a>
+                <a class="social-icon-link" href="https://www.instagram.com/lhester.exe/" target="_blank"
+                  rel="noopener noreferrer" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+                  </svg>
+                </a>
+                <a class="social-icon-link" href="https://www.tiktok.com/@_lhesterjohn" target="_blank"
+                  rel="noopener noreferrer" aria-label="TikTok">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer" id="footer">
+      <div class="container footer-inner">
+        <small>© 2026 John Lhester Arco. All rights reserved.</small>
+        <a class="to-top" href="#home" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19V5" />
+            <path d="M6 11l6-6 6 6" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const resumeDropdown = document.getElementById('resumeDropdown');
+    const resumeButton = document.getElementById('resumeButton');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('#home, #about, #skills, #projects, #contact');
+
+    // Smooth scroll when clicking navigation and internal anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.length > 1) {
+          const targetSection = document.querySelector(href);
+          if (targetSection) {
+            e.preventDefault();
+            history.pushState(null, '', href);
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Active nav link highlight on scroll (Scroll Spy)
+    function setActiveNav(id) {
+      navLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        const targetId = href ? href.replace(/^.*#/, '') : '';
+        link.classList.toggle('is-active', targetId === id);
+      });
+    }
+
+    if (sections.length && navLinks.length) {
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveNav(entry.target.id);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '-30% 0px -45% 0px',
+          threshold: 0,
+        }
+      );
+
+      sections.forEach((section) => sectionObserver.observe(section));
+    }
+
+    // Resume dropdown menu
+    function closeResumeMenu() {
+      if (resumeDropdown && resumeButton) {
+        resumeDropdown.classList.remove('open');
+        resumeButton.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    if (resumeButton) {
+      resumeButton.addEventListener('click', () => {
+        const isOpen = resumeDropdown.classList.toggle('open');
+        resumeButton.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+
+    document.addEventListener('click', (event) => {
+      if (resumeDropdown && !resumeDropdown.contains(event.target)) {
+        closeResumeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeResumeMenu();
+      }
+    });
+
+    const formStatus = document.getElementById('formStatus');
+    const mailState = new URLSearchParams(window.location.search).get('mail');
+
+    if (mailState !== null) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('mail');
+      url.hash = '#contact';
+      history.replaceState({}, '', url.pathname + url.search + url.hash);
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (formStatus) {
+      if (mailState === 'sent') {
+        formStatus.textContent = 'Message sent successfully.';
+        formStatus.style.color = '#9ef0b1';
+      } else if (mailState === 'failed') {
+        formStatus.textContent = 'Message could not be sent. Please try again.';
+        formStatus.style.color = '#ff9f9f';
+      } else if (mailState === 'error') {
+        formStatus.textContent = 'Please complete all fields before sending.';
+        formStatus.style.color = '#ffcf8a';
+      } else if (mailState === 'config') {
+        formStatus.textContent = 'Mail is not configured yet. Add SMTP credentials in .env.';
+        formStatus.style.color = '#ffcf8a';
+      }
+    }
+  </script>
+</body>
+
+</html>
