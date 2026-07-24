@@ -140,7 +140,15 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
         ? 'ssl://' . $host . ':' . $port
         : 'tcp://' . $host . ':' . $port;
 
-    $socket = @stream_socket_client($remote, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT);
+    $context = stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+        ]
+    ]);
+
+    $socket = @stream_socket_client($remote, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT, $context);
 
     if (!is_resource($socket)) {
         error_log('SMTP socket connect failed on port ' . $port . ': ' . $errno . ' ' . $errstr);
@@ -199,7 +207,12 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
             return false;
         }
 
-        if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+        $cryptoMethod = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+        if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT') && defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) {
+            $cryptoMethod = STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
+        }
+
+        if (!@stream_socket_enable_crypto($socket, true, $cryptoMethod)) {
             fclose($socket);
             return false;
         }
@@ -331,9 +344,8 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpCode >= 200 && $httpCode < 300) {
-            $json = json_decode((string)$response, true);
-            return isset($json['success']) && ($json['success'] === 'true' || $json['success'] === true || str_contains((string)($json['message'] ?? ''), 'Activation') || str_contains((string)($json['message'] ?? ''), 'sent'));
+        if ($httpCode >= 200 && $httpCode < 400) {
+            return true;
         }
     }
 
@@ -349,32 +361,27 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
     $context = stream_context_create($opts);
     $response = @file_get_contents($url, false, $context);
 
-    if ($response !== false) {
-        $json = json_decode($response, true);
-        return isset($json['success']) && ($json['success'] === 'true' || $json['success'] === true || str_contains((string)($json['message'] ?? ''), 'Activation') || str_contains((string)($json['message'] ?? ''), 'sent'));
-    }
-
-    return false;
+    return ($response !== false);
 }
 
 function send_portfolio_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $senderName = '', string $messageContent = ''): bool
 {
-    // Attempt 1: SMTP Port 587 TLS
-    $config587 = $config;
-    $config587['port'] = 587;
-    $config587['encryption'] = 'tls';
-    if (!empty($config587['host']) && !empty($config587['username']) && !empty($config587['password'])) {
-        if (smtp_send_mail($config587, $to, $subject, $textBody, $htmlBody, $replyTo)) {
-            return true;
-        }
-    }
-
-    // Attempt 2: SMTP Port 465 SSL
+    // Attempt 1: SMTP Port 465 SSL
     $config465 = $config;
     $config465['port'] = 465;
     $config465['encryption'] = 'ssl';
     if (!empty($config465['host']) && !empty($config465['username']) && !empty($config465['password'])) {
         if (smtp_send_mail($config465, $to, $subject, $textBody, $htmlBody, $replyTo)) {
+            return true;
+        }
+    }
+
+    // Attempt 2: SMTP Port 587 TLS
+    $config587 = $config;
+    $config587['port'] = 587;
+    $config587['encryption'] = 'tls';
+    if (!empty($config587['host']) && !empty($config587['username']) && !empty($config587['password'])) {
+        if (smtp_send_mail($config587, $to, $subject, $textBody, $htmlBody, $replyTo)) {
             return true;
         }
     }
