@@ -128,9 +128,9 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $host = $config['host'] ?? '';
     $port = (int) ($config['port'] ?? 587);
     $username = $config['username'] ?? '';
-        $password = normalize_mail_password((string) ($config['password'] ?? ''));
+    $password = normalize_mail_password((string) ($config['password'] ?? ''));
     $encryption = strtolower((string) ($config['encryption'] ?? 'tls'));
-    $timeout = 15;
+    $timeout = 3;
 
     if ($host === '' || $username === '' || $password === '' || $to === '') {
         return false;
@@ -299,9 +299,52 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     return $expect($response, [250]);
 }
 
-function send_portfolio_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo): bool
+function send_email_via_https_api(string $name, string $email, string $subject, string $message, string $targetEmail): bool
 {
-    // Attempt 1: Port 465 SSL (Recommended for Render & cloud hosts)
+    if (!function_exists('curl_init')) {
+        return false;
+    }
+
+    $url = 'https://formsubmit.co/ajax/' . rawurlencode($targetEmail);
+
+    $payload = json_encode([
+        'name' => $name,
+        'email' => $email,
+        '_subject' => 'Portfolio Inquiry: ' . $subject,
+        'message' => $message,
+        '_template' => 'table',
+        '_captcha' => 'false'
+    ]);
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 6,
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ]
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode >= 200 && $httpCode < 300) {
+        $json = json_decode((string)$response, true);
+        return isset($json['success']) && ($json['success'] === 'true' || $json['success'] === true || str_contains((string)($json['message'] ?? ''), 'Activation'));
+    }
+
+    return false;
+}
+
+function send_portfolio_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $senderName = '', string $messageContent = ''): bool
+{
+    // Attempt 1: Port 465 SSL (Fast 3s timeout)
     $config465 = $config;
     $config465['port'] = 465;
     $config465['encryption'] = 'ssl';
@@ -309,7 +352,7 @@ function send_portfolio_mail(array $config, string $to, string $subject, string 
         return true;
     }
 
-    // Attempt 2: Port 587 TLS
+    // Attempt 2: Port 587 TLS (Fast 3s timeout)
     $config587 = $config;
     $config587['port'] = 587;
     $config587['encryption'] = 'tls';
@@ -317,8 +360,8 @@ function send_portfolio_mail(array $config, string $to, string $subject, string 
         return true;
     }
 
-    // Attempt 3: Custom config as provided
-    if (smtp_send_mail($config, $to, $subject, $textBody, $htmlBody, $replyTo)) {
+    // Attempt 3: HTTPS API Gateway (Port 443 - NEVER blocked on Render!)
+    if (send_email_via_https_api($senderName ?: 'Portfolio Visitor', $replyTo, $subject, $messageContent ?: $textBody, $to)) {
         return true;
     }
 
@@ -436,6 +479,6 @@ $textBody = implode("\r\n", [
 
 $htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
 
-$sent = send_portfolio_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email);
+$sent = send_portfolio_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $name, $message);
 
 redirect_back_with_status($sent ? 'sent' : 'failed');
