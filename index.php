@@ -15,33 +15,42 @@
     <header class="nav">
       <div class="container nav-inner">
         <a class="brand" href="#home">&lt;<span>/</span>Lhester&gt;</a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <div class="resume-dropdown" id="resumeDropdown">
-          <button class="resume-btn" id="resumeButton" type="button" aria-haspopup="menu" aria-expanded="false">
-            <span class="resume-btn-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-                <path d="M12 3v11"></path>
-                <path d="M8 11l4 4 4-4"></path>
-                <path d="M5 19h14"></path>
-              </svg>
-            </span>
-            <span>Resume</span>
-          </button>
-          <div class="resume-menu" role="menu" aria-label="Resume download options">
-            <a class="resume-option" role="menuitem" href="img/ArcoResume.pdf" download="JOHN-LHESTER-ARCO-Resume.pdf">
-              <span class="resume-icon pdf">PDF</span>
-              <span class="resume-label">PDF</span>
-            </a>
-            <a class="resume-option" role="menuitem" href="img/reumearco.png" download="JOHN-LHESTER-ARCO-Resume.png">
-              <span class="resume-icon image">IMG</span>
-              <span class="resume-label">Image</span>
-            </a>
+        
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+
+        <div class="nav-menu" id="navMenu">
+          <nav class="nav-links" aria-label="Primary">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <div class="resume-dropdown" id="resumeDropdown">
+            <button class="resume-btn" id="resumeButton" type="button" aria-haspopup="menu" aria-expanded="false">
+              <span class="resume-btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M12 3v11"></path>
+                  <path d="M8 11l4 4 4-4"></path>
+                  <path d="M5 19h14"></path>
+                </svg>
+              </span>
+              <span>Resume</span>
+            </button>
+            <div class="resume-menu" role="menu" aria-label="Resume download options">
+              <a class="resume-option" role="menuitem" href="img/ArcoResume.pdf" download="JOHN-LHESTER-ARCO-Resume.pdf">
+                <span class="resume-icon pdf">PDF</span>
+                <span class="resume-label">PDF</span>
+              </a>
+              <a class="resume-option" role="menuitem" href="img/reumearco.png" download="JOHN-LHESTER-ARCO-Resume.png">
+                <span class="resume-icon image">IMG</span>
+                <span class="resume-label">Image</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -509,6 +518,28 @@
     const resumeButton = document.getElementById('resumeButton');
     const navLinks = document.querySelectorAll('.nav-links a');
     const sections = document.querySelectorAll('#home, #about, #skills, #projects, #contact');
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    // Mobile Menu Toggle
+    function closeMobileMenu() {
+      if (navToggle && navMenu) {
+        navToggle.classList.remove('is-active');
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+      }
+    }
+
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navMenu.classList.toggle('is-open');
+        navToggle.classList.toggle('is-active', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('menu-open', isOpen);
+      });
+    }
 
     // Smooth scroll when clicking navigation and internal anchor links
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -518,6 +549,7 @@
           const targetSection = document.querySelector(href);
           if (targetSection) {
             e.preventDefault();
+            closeMobileMenu();
             history.pushState(null, '', href);
             targetSection.scrollIntoView({ behavior: 'smooth' });
           }
@@ -562,7 +594,8 @@
     }
 
     if (resumeButton) {
-      resumeButton.addEventListener('click', () => {
+      resumeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
         const isOpen = resumeDropdown.classList.toggle('open');
         resumeButton.setAttribute('aria-expanded', String(isOpen));
       });
@@ -572,11 +605,15 @@
       if (resumeDropdown && !resumeDropdown.contains(event.target)) {
         closeResumeMenu();
       }
+      if (navMenu && navToggle && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
+        closeMobileMenu();
+      }
     });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         closeResumeMenu();
+        closeMobileMenu();
       }
     });
 
