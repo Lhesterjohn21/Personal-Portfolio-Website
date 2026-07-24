@@ -128,9 +128,9 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $host = $config['host'] ?? '';
     $port = (int) ($config['port'] ?? 587);
     $username = $config['username'] ?? '';
-    $password = normalize_mail_password((string) ($config['password'] ?? ''));
+        $password = normalize_mail_password((string) ($config['password'] ?? ''));
     $encryption = strtolower((string) ($config['encryption'] ?? 'tls'));
-    $timeout = 3;
+    $timeout = 15;
 
     if ($host === '' || $username === '' || $password === '' || $to === '') {
         return false;
@@ -299,95 +299,6 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     return $expect($response, [250]);
 }
 
-function send_email_via_https_api(string $name, string $email, string $subject, string $message, string $targetEmail): bool
-{
-    if (!function_exists('curl_init')) {
-        return false;
-    }
-
-    $url = 'https://formsubmit.co/ajax/' . rawurlencode($targetEmail);
-
-    $payload = json_encode([
-        'name' => $name,
-        'email' => $email,
-        '_subject' => 'Portfolio Inquiry: ' . $subject,
-        'message' => $message,
-        '_template' => 'table',
-        '_captcha' => 'false'
-    ]);
-
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        CURLOPT_URL => $url,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $payload,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 6,
-        CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        CURLOPT_HTTPHEADER => [
-            'Content-Type: application/json',
-            'Accept: application/json'
-        ]
-    ]);
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($httpCode >= 200 && $httpCode < 300) {
-        $json = json_decode((string)$response, true);
-        return isset($json['success']) && ($json['success'] === 'true' || $json['success'] === true || str_contains((string)($json['message'] ?? ''), 'Activation'));
-    }
-
-    return false;
-}
-
-function send_portfolio_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $senderName = '', string $messageContent = ''): bool
-{
-    // Attempt 1: Port 465 SSL (Fast 3s timeout)
-    $config465 = $config;
-    $config465['port'] = 465;
-    $config465['encryption'] = 'ssl';
-    if (smtp_send_mail($config465, $to, $subject, $textBody, $htmlBody, $replyTo)) {
-        return true;
-    }
-
-    // Attempt 2: Port 587 TLS (Fast 3s timeout)
-    $config587 = $config;
-    $config587['port'] = 587;
-    $config587['encryption'] = 'tls';
-    if (smtp_send_mail($config587, $to, $subject, $textBody, $htmlBody, $replyTo)) {
-        return true;
-    }
-
-    // Attempt 3: HTTPS API Gateway (Port 443 - NEVER blocked on Render!)
-    if (send_email_via_https_api($senderName ?: 'Portfolio Visitor', $replyTo, $subject, $messageContent ?: $textBody, $to)) {
-        return true;
-    }
-
-    // Attempt 4: PHP native mail() fallback
-    $fromName = $config['from_name'] ?? 'John Lhester Arco';
-    $fromAddress = $config['from_address'] ?? ($config['username'] ?? 'johnlhesterarco21@gmail.com');
-    $boundary = '=_Portfolio_' . bin2hex(random_bytes(12));
-
-    $headers = [
-        'From: ' . $fromName . ' <' . $fromAddress . '>',
-        'Reply-To: ' . $replyTo,
-        'MIME-Version: 1.0',
-        'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
-    ];
-
-    $messageData = '--' . $boundary . "\r\n";
-    $messageData .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
-    $messageData .= $textBody . "\r\n\r\n";
-    $messageData .= '--' . $boundary . "\r\n";
-    $messageData .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
-    $messageData .= $htmlBody . "\r\n\r\n";
-    $messageData .= '--' . $boundary . "--";
-
-    return @mail($to, $subject, $messageData, implode("\r\n", $headers));
-}
-
 load_env_file(__DIR__ . '/.env');
 
 function redirect_back_with_status(string $status): never
@@ -448,17 +359,14 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $to = env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com') ?? 'johnlhesterarco21@gmail.com';
-$defaultMailUser = 'johnlhesterarco21@gmail.com';
-$defaultMailPass = 'lmmd nywx dijc ynij';
-
 $smtpConfig = [
-    'host' => env_value('MAIL_HOST', 'smtp.gmail.com'),
-    'port' => env_value('MAIL_PORT', '465'),
-    'username' => env_value('MAIL_USERNAME', $defaultMailUser),
-    'password' => env_value('MAIL_PASSWORD', $defaultMailPass),
-    'encryption' => env_value('MAIL_ENCRYPTION', 'ssl'),
+    'host' => env_value('MAIL_HOST', ''),
+    'port' => env_value('MAIL_PORT', '587'),
+    'username' => env_value('MAIL_USERNAME', ''),
+    'password' => env_value('MAIL_PASSWORD', ''),
+    'encryption' => env_value('MAIL_ENCRYPTION', 'tls'),
     'from_name' => env_value('MAIL_FROM_NAME', 'John Lhester Arco'),
-    'from_address' => env_value('MAIL_FROM_ADDRESS', env_value('MAIL_USERNAME', $defaultMailUser)),
+    'from_address' => env_value('MAIL_FROM_ADDRESS', env_value('MAIL_USERNAME', 'johnlhesterarco21@gmail.com')),
 ];
 
 if ($smtpConfig['host'] === '' || $smtpConfig['username'] === '' || $smtpConfig['password'] === '') {
@@ -479,6 +387,10 @@ $textBody = implode("\r\n", [
 
 $htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
 
-$sent = send_portfolio_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $name, $message);
+$headers = [
+    'Reply-To: ' . $email,
+];
+
+$sent = smtp_send_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email);
 
 redirect_back_with_status($sent ? 'sent' : 'failed');
