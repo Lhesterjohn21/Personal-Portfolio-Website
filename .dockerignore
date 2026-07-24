@@ -1,0 +1,6 @@
+.git
+.env
+.cursor
+.gemini
+vendor/
+node_modules/
