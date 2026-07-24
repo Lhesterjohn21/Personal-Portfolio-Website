@@ -388,6 +388,10 @@
               </div>
             </div>
             <div class="field full">
+              <label for="contactSubject">Subject</label>
+              <input id="contactSubject" name="subject" type="text" placeholder="Project inquiry" required />
+            </div>
+            <div class="field full">
               <label for="contactMessage">Message</label>
               <textarea id="contactMessage" name="message" placeholder="Tell me about your project..."
                 required></textarea>
