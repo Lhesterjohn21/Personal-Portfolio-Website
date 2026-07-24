@@ -636,9 +636,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 $name = trim((string) ($_POST['name'] ?? ''));
 $email = trim((string) ($_POST['email'] ?? ''));
 $subject = trim((string) ($_POST['subject'] ?? ''));
+if ($subject === '') {
+    $subject = 'Portfolio Message from ' . $name;
+}
 $message = trim((string) ($_POST['message'] ?? ''));
 
-if ($name === '' || $email === '' || $subject === '' || $message === '') {
+if ($name === '' || $email === '' || $message === '') {
     redirect_back_with_status('error');
 }
 
