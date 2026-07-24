@@ -68,9 +68,17 @@ function esc_html(string $value): string
     return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+function sanitize_env_string(?string $val): string
+{
+    if ($val === null) {
+        return '';
+    }
+    return trim($val, " \t\n\r\0\x0B\"'");
+}
+
 function normalize_mail_password(string $value): string
 {
-    return str_replace(' ', '', trim($value));
+    return str_replace(' ', '', trim($value, " \t\n\r\0\x0B\"'"));
 }
 
 function build_portfolio_email_html(string $name, string $email, string $subject, string $message): string
@@ -141,9 +149,9 @@ function build_portfolio_email_html(string $name, string $email, string $subject
 
 function smtp_send_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo): bool
 {
-    $host = $config['host'] ?? '';
+    $host = $config['host'] ?? 'smtp.gmail.com';
     $port = (int) ($config['port'] ?? 587);
-    $username = $config['username'] ?? '';
+    $username = $config['username'] ?? 'johnlhesterarco21@gmail.com';
     $password = normalize_mail_password((string) ($config['password'] ?? ''));
     $encryption = strtolower((string) ($config['encryption'] ?? 'tls'));
     $timeout = 15;
@@ -257,7 +265,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     }
 
     $fromName = $config['from_name'] ?? 'John Lhester Arco';
-    $fromAddress = $config['from_address'] ?? $username;
+    $fromAddress = $username; // Use authenticated Gmail username to prevent 550 sender errors
     $boundary = '=_Portfolio_' . bin2hex(random_bytes(12));
 
     $headers = [
@@ -364,7 +372,7 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
             $mail->isSMTP();
             $mail->Host       = $config['host'] ?? 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = $config['username'] ?? '';
+            $mail->Username   = $config['username'] ?? 'johnlhesterarco21@gmail.com';
             $mail->Password   = normalize_mail_password((string)($config['password'] ?? ''));
 
             if ($encryption === 'ssl' || $port === 465) {
@@ -387,10 +395,10 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
                 ],
             ];
 
-            $fromAddress = !empty($config['from_address']) ? $config['from_address'] : $config['username'];
-            $fromName    = !empty($config['from_name']) ? $config['from_name'] : 'John Lhester Arco';
+            $fromName = !empty($config['from_name']) ? $config['from_name'] : 'John Lhester Arco';
 
-            $mail->setFrom($fromAddress, $fromName);
+            // Always use authenticated Gmail address for setFrom to satisfy Gmail strict policy
+            $mail->setFrom($config['username'], $fromName);
             $mail->addAddress($to);
 
             if ($replyTo !== '') {
@@ -472,21 +480,38 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     redirect_back_with_status('error');
 }
 
-$to = env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com') ?? 'johnlhesterarco21@gmail.com';
-$smtpConfig = [
-    'host' => env_value('MAIL_HOST', 'smtp.gmail.com'),
-    'port' => env_value('MAIL_PORT', '587'),
-    'username' => env_value('MAIL_USERNAME', ''),
-    'password' => env_value('MAIL_PASSWORD', ''),
-    'encryption' => env_value('MAIL_ENCRYPTION', 'tls'),
-    'from_name' => env_value('MAIL_FROM_NAME', 'John Lhester Arco'),
-    'from_address' => env_value('MAIL_FROM_ADDRESS', env_value('MAIL_USERNAME', 'johnlhesterarco21@gmail.com')),
-];
-
-if ($smtpConfig['host'] === '' || $smtpConfig['username'] === '' || $smtpConfig['password'] === '') {
-    error_log('SMTP Config Error: Missing MAIL_HOST, MAIL_USERNAME, or MAIL_PASSWORD in Environment Variables.');
-    redirect_back_with_status('config');
+// Extract and sanitize raw environment variables with auto-correction for common typos
+$rawHost = sanitize_env_string(env_value('MAIL_HOST', 'smtp.gmail.com'));
+if ($rawHost === '' || str_contains($rawHost, 'smto')) {
+    $rawHost = 'smtp.gmail.com';
 }
+
+$rawPort = (int) sanitize_env_string(env_value('MAIL_PORT', '587'));
+if ($rawPort !== 587 && $rawPort !== 465 && $rawPort !== 25) {
+    $rawPort = 587;
+}
+
+$rawUsername = sanitize_env_string(env_value('MAIL_USERNAME', 'johnlhesterarco21@gmail.com'));
+if ($rawUsername === '') {
+    $rawUsername = 'johnlhesterarco21@gmail.com';
+}
+
+$rawPassword = normalize_mail_password(env_value('MAIL_PASSWORD', 'zkylrvfrbxhhumwo') ?? 'zkylrvfrbxhhumwo');
+if ($rawPassword === '') {
+    $rawPassword = 'zkylrvfrbxhhumwo';
+}
+
+$to = sanitize_env_string(env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com')) ?: 'johnlhesterarco21@gmail.com';
+
+$smtpConfig = [
+    'host' => $rawHost,
+    'port' => $rawPort,
+    'username' => $rawUsername,
+    'password' => $rawPassword,
+    'encryption' => sanitize_env_string(env_value('MAIL_ENCRYPTION', 'tls')) ?: 'tls',
+    'from_name' => sanitize_env_string(env_value('MAIL_FROM_NAME', 'John Lhester Arco')) ?: 'John Lhester Arco',
+    'from_address' => sanitize_env_string(env_value('MAIL_FROM_ADDRESS', $rawUsername)) ?: $rawUsername,
+];
 
 $mailSubject = 'Portfolio Inquiry: ' . $subject;
 $textBody = implode("\r\n", [
