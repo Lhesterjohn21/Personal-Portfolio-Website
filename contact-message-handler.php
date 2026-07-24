@@ -325,6 +325,8 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
         '_captcha' => 'false'
     ]);
 
+    $response = false;
+
     if (function_exists('curl_init')) {
         $ch = curl_init();
         curl_setopt_array($ch, [
@@ -344,24 +346,40 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpCode >= 200 && $httpCode < 400) {
-            return true;
+        if ($httpCode >= 200 && $httpCode < 400 && $response) {
+            $data = json_decode((string)$response, true);
+            if (is_array($data)) {
+                $isSuccess = isset($data['success']) && ($data['success'] === true || $data['success'] === 'true');
+                $isSentMessage = isset($data['message']) && (str_contains(strtolower((string)$data['message']), 'sent') || str_contains(strtolower((string)$data['message']), 'success'));
+                return ($isSuccess || $isSentMessage);
+            }
         }
     }
 
-    $opts = [
-        'http' => [
-            'method'  => 'POST',
-            'header'  => "Content-Type: application/json\r\nAccept: application/json\r\nUser-Agent: Mozilla/5.0\r\n",
-            'content' => $payload,
-            'timeout' => 8,
-        ]
-    ];
+    if ($response === false) {
+        $opts = [
+            'http' => [
+                'method'  => 'POST',
+                'header'  => "Content-Type: application/json\r\nAccept: application/json\r\nUser-Agent: Mozilla/5.0\r\n",
+                'content' => $payload,
+                'timeout' => 8,
+            ]
+        ];
 
-    $context = stream_context_create($opts);
-    $response = @file_get_contents($url, false, $context);
+        $context = stream_context_create($opts);
+        $response = @file_get_contents($url, false, $context);
 
-    return ($response !== false);
+        if ($response !== false) {
+            $data = json_decode((string)$response, true);
+            if (is_array($data)) {
+                $isSuccess = isset($data['success']) && ($data['success'] === true || $data['success'] === 'true');
+                $isSentMessage = isset($data['message']) && (str_contains(strtolower((string)$data['message']), 'sent') || str_contains(strtolower((string)$data['message']), 'success'));
+                return ($isSuccess || $isSentMessage);
+            }
+        }
+    }
+
+    return false;
 }
 
 function send_portfolio_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $senderName = '', string $messageContent = ''): bool
