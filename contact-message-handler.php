@@ -359,14 +359,17 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $to = env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com') ?? 'johnlhesterarco21@gmail.com';
+$defaultMailUser = 'johnlhesterarco21@gmail.com';
+$defaultMailPass = 'lmmd nywx dijc ynij';
+
 $smtpConfig = [
-    'host' => env_value('MAIL_HOST', ''),
+    'host' => env_value('MAIL_HOST', 'smtp.gmail.com'),
     'port' => env_value('MAIL_PORT', '587'),
-    'username' => env_value('MAIL_USERNAME', ''),
-    'password' => env_value('MAIL_PASSWORD', ''),
+    'username' => env_value('MAIL_USERNAME', $defaultMailUser),
+    'password' => env_value('MAIL_PASSWORD', $defaultMailPass),
     'encryption' => env_value('MAIL_ENCRYPTION', 'tls'),
     'from_name' => env_value('MAIL_FROM_NAME', 'John Lhester Arco'),
-    'from_address' => env_value('MAIL_FROM_ADDRESS', env_value('MAIL_USERNAME', 'johnlhesterarco21@gmail.com')),
+    'from_address' => env_value('MAIL_FROM_ADDRESS', env_value('MAIL_USERNAME', $defaultMailUser)),
 ];
 
 if ($smtpConfig['host'] === '' || $smtpConfig['username'] === '' || $smtpConfig['password'] === '') {
