@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+  <title>John Lhester Arco | Aspiring Web Developer</title>
   <link rel="icon" type="image/png" href="img/jl.png" />
   <link rel="shortcut icon" type="image/png" href="img/jl.png" />
   <link rel="stylesheet" href="css/style.css" />

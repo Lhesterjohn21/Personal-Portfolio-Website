@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JOHN LHESTER ARCO | Portfolio</title>
+  <title>John Lhester Arco | Aspiring Web Developer</title>
   <style>
     :root {
       --bg: #070b14;
