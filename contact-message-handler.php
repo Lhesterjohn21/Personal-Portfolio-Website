@@ -46,33 +46,41 @@ function load_env_file(string $path): void
 
 function env_value(string $key, ?string $default = null): ?string
 {
-    $value = getenv($key);
-
-    if ($value === false || $value === '') {
-        return $default;
+    if (isset($_ENV[$key]) && $_ENV[$key] !== '') {
+        return (string) $_ENV[$key];
     }
 
-    return $value;
+    if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') {
+        return (string) $_SERVER[$key];
+    }
+
+    $value = getenv($key);
+
+    if ($value !== false && $value !== '') {
+        return (string) $value;
+    }
+
+    return $default;
 }
 
 function esc_html(string $value): string
 {
-        return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 function normalize_mail_password(string $value): string
 {
-        return str_replace(' ', '', trim($value));
+    return str_replace(' ', '', trim($value));
 }
 
 function build_portfolio_email_html(string $name, string $email, string $subject, string $message): string
 {
-        $safeName = esc_html($name);
-        $safeEmail = esc_html($email);
-        $safeSubject = esc_html($subject);
-        $safeMessage = nl2br(esc_html($message));
+    $safeName = esc_html($name);
+    $safeEmail = esc_html($email);
+    $safeSubject = esc_html($subject);
+    $safeMessage = nl2br(esc_html($message));
 
-        return '<!DOCTYPE html>
+    return '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -136,11 +144,12 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $host = $config['host'] ?? '';
     $port = (int) ($config['port'] ?? 587);
     $username = $config['username'] ?? '';
-        $password = normalize_mail_password((string) ($config['password'] ?? ''));
+    $password = normalize_mail_password((string) ($config['password'] ?? ''));
     $encryption = strtolower((string) ($config['encryption'] ?? 'tls'));
     $timeout = 15;
 
     if ($host === '' || $username === '' || $password === '' || $to === '') {
+        error_log('Custom SMTP Error: Missing required SMTP parameters.');
         return false;
     }
 
@@ -151,7 +160,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $socket = @stream_socket_client($remote, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT);
 
     if (!is_resource($socket)) {
-        error_log('SMTP connect failed: ' . $errno . ' ' . $errstr);
+        error_log('Custom SMTP connect failed: [' . $errno . '] ' . $errstr);
         return false;
     }
 
@@ -159,14 +168,12 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
 
     $read = static function () use ($socket): string {
         $buffer = '';
-
         while (($line = fgets($socket, 515)) !== false) {
             $buffer .= $line;
             if (strlen($line) < 4 || $line[3] !== '-') {
                 break;
             }
         }
-
         return $buffer;
     };
 
@@ -180,12 +187,12 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
                 return true;
             }
         }
-
         return false;
     };
 
     $response = $read();
     if (!$expect($response, [220])) {
+        error_log('Custom SMTP Greeting Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -194,6 +201,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $response = $read();
 
     if (!$expect($response, [250])) {
+        error_log('Custom SMTP EHLO Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -203,11 +211,13 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
         $response = $read();
 
         if (!$expect($response, [220])) {
+            error_log('Custom SMTP STARTTLS Error: ' . trim($response));
             fclose($socket);
             return false;
         }
 
         if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            error_log('Custom SMTP Crypto Enable Error.');
             fclose($socket);
             return false;
         }
@@ -216,6 +226,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
         $response = $read();
 
         if (!$expect($response, [250])) {
+            error_log('Custom SMTP EHLO post-TLS Error: ' . trim($response));
             fclose($socket);
             return false;
         }
@@ -224,6 +235,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('AUTH LOGIN');
     $response = $read();
     if (!$expect($response, [334])) {
+        error_log('Custom SMTP AUTH LOGIN Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -231,6 +243,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write(base64_encode($username));
     $response = $read();
     if (!$expect($response, [334])) {
+        error_log('Custom SMTP Username Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -238,6 +251,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write(base64_encode($password));
     $response = $read();
     if (!$expect($response, [235])) {
+        error_log('Custom SMTP Password Auth Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -271,6 +285,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('MAIL FROM:<' . $fromAddress . '>');
     $response = $read();
     if (!$expect($response, [250])) {
+        error_log('Custom SMTP MAIL FROM Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -278,6 +293,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('RCPT TO:<' . $to . '>');
     $response = $read();
     if (!$expect($response, [250, 251])) {
+        error_log('Custom SMTP RCPT TO Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -285,6 +301,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('DATA');
     $response = $read();
     if (!$expect($response, [354])) {
+        error_log('Custom SMTP DATA Error: ' . trim($response));
         fclose($socket);
         return false;
     }
@@ -310,11 +327,18 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
 function send_email_via_phpmailer(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $replyName = ''): bool
 {
     if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+        error_log('PHPMailer class missing. Autoload check failed.');
         return false;
     }
 
     try {
         $mail = new PHPMailer(true);
+
+        // Enable detailed SMTP output printed directly to error_log (visible in Render logs)
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Level 2
+        $mail->Debugoutput = static function (string $str, int $level): void {
+            error_log("PHPMailer SMTP [$level]: $str");
+        };
 
         $mail->isSMTP();
         $mail->Host       = $config['host'] ?? 'smtp.gmail.com';
@@ -327,15 +351,17 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
 
         if ($encryption === 'ssl' || $port === 465) {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            $mail->Port       = $port > 0 ? $port : 465;
         } else {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = $port > 0 ? $port : 587;
         }
 
-        $mail->Port       = $port;
-        $mail->Timeout    = 12;
+        $mail->Timeout    = 20;
+        $mail->CharSet    = 'UTF-8';
 
-        $fromAddress = $config['from_address'] ?? ($config['username'] ?? '');
-        $fromName = $config['from_name'] ?? 'John Lhester Arco';
+        $fromAddress = !empty($config['from_address']) ? $config['from_address'] : $config['username'];
+        $fromName    = !empty($config['from_name']) ? $config['from_name'] : 'John Lhester Arco';
 
         $mail->setFrom($fromAddress, $fromName);
         $mail->addAddress($to);
@@ -351,7 +377,7 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
 
         return $mail->send();
     } catch (Exception $e) {
-        error_log('PHPMailer Error: ' . $e->getMessage());
+        error_log('PHPMailer Exception: ' . $e->getMessage() . ' | PHPMailer ErrorInfo: ' . ($mail->ErrorInfo ?? 'N/A'));
         return false;
     }
 }
@@ -417,7 +443,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $to = env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com') ?? 'johnlhesterarco21@gmail.com';
 $smtpConfig = [
-    'host' => env_value('MAIL_HOST', ''),
+    'host' => env_value('MAIL_HOST', 'smtp.gmail.com'),
     'port' => env_value('MAIL_PORT', '587'),
     'username' => env_value('MAIL_USERNAME', ''),
     'password' => env_value('MAIL_PASSWORD', ''),
@@ -427,6 +453,7 @@ $smtpConfig = [
 ];
 
 if ($smtpConfig['host'] === '' || $smtpConfig['username'] === '' || $smtpConfig['password'] === '') {
+    error_log('SMTP Config Error: Missing MAIL_HOST, MAIL_USERNAME, or MAIL_PASSWORD in Environment Variables.');
     redirect_back_with_status('config');
 }
 
@@ -449,7 +476,12 @@ $sent = send_email_via_phpmailer($smtpConfig, $to, $mailSubject, $textBody, $htm
 
 // Fallback to custom SMTP socket if PHPMailer returns false
 if (!$sent) {
+    error_log('PHPMailer failed. Attempting custom socket fallback...');
     $sent = smtp_send_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email);
+}
+
+if (!$sent) {
+    error_log('Email sending completely failed on both PHPMailer and custom SMTP socket.');
 }
 
 redirect_back_with_status($sent ? 'sent' : 'failed');
