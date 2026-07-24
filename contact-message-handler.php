@@ -5,6 +5,14 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
+if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+    if (file_exists(__DIR__ . '/lib/phpmailer/Exception.php')) {
+        require_once __DIR__ . '/lib/phpmailer/Exception.php';
+        require_once __DIR__ . '/lib/phpmailer/PHPMailer.php';
+        require_once __DIR__ . '/lib/phpmailer/SMTP.php';
+    }
+}
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -558,18 +566,151 @@ $textBody = implode("\r\n", [
 
 $htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
 
+function send_email_via_https_api(string $name, string $email, string $subject, string $message, string $htmlBody, string &$errorMsg = ''): bool
+{
+    $webhookUrl = env_value('MAIL_WEBHOOK_URL', '');
+    $resendKey = env_value('RESEND_API_KEY', '');
+    $web3Key = env_value('WEB3FORMS_ACCESS_KEY', '');
+
+    // 1. Google Apps Script WebApp or Custom Webhook URL
+    if ($webhookUrl !== '') {
+        $payload = json_encode([
+            'name' => $name,
+            'email' => $email,
+            'subject' => $subject,
+            'message' => $message,
+            'htmlBody' => $htmlBody,
+            'to' => 'johnlhesterarco21@gmail.com'
+        ]);
+
+        $ch = curl_init($webhookUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlErr !== '') {
+            $errorMsg = "Webhook cURL Error: $curlErr";
+            return false;
+        }
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            return true;
+        }
+
+        $errorMsg = "Webhook HTTP $httpCode: " . substr((string)$response, 0, 100);
+        return false;
+    }
+
+    // 2. Resend HTTPS API (api.resend.com)
+    if ($resendKey !== '') {
+        $payload = json_encode([
+            'from' => 'Portfolio Inquiry <onboarding@resend.dev>',
+            'to' => ['johnlhesterarco21@gmail.com'],
+            'reply_to' => $email,
+            'subject' => 'Portfolio Inquiry: ' . $subject,
+            'html' => $htmlBody,
+        ]);
+
+        $ch = curl_init('https://api.resend.com/emails');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $resendKey,
+            'Content-Type: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlErr !== '') {
+            $errorMsg = "Resend cURL Error: $curlErr";
+            return false;
+        }
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            return true;
+        }
+
+        $errorMsg = "Resend HTTP $httpCode: " . substr((string)$response, 0, 100);
+        return false;
+    }
+
+    // 3. Web3Forms HTTPS API (api.web3forms.com)
+    if ($web3Key !== '') {
+        $payload = json_encode([
+            'access_key' => $web3Key,
+            'name' => $name,
+            'email' => $email,
+            'subject' => 'Portfolio Inquiry: ' . $subject,
+            'message' => $message,
+        ]);
+
+        $ch = curl_init('https://api.web3forms.com/submit');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlErr = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlErr !== '') {
+            $errorMsg = "Web3Forms cURL Error: $curlErr";
+            return false;
+        }
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            return true;
+        }
+
+        $errorMsg = "Web3Forms HTTP $httpCode: " . substr((string)$response, 0, 100);
+        return false;
+    }
+
+    $errorMsg = 'HTTPS API: Set WEB3FORMS_ACCESS_KEY, RESEND_API_KEY, or MAIL_WEBHOOK_URL in Render';
+    return false;
+}
+
 $lastError = '';
 
-// Attempt sending via PHPMailer first
+// Attempt 1: PHPMailer (uses bundled lib/phpmailer)
 $sent = send_email_via_phpmailer($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $name, $lastError);
 
-// Fallback to custom SMTP socket if PHPMailer returns false
+// Attempt 2: Custom raw socket fallback
 if (!$sent) {
     $socketError = '';
     error_log('PHPMailer failed (' . $lastError . '). Attempting custom socket fallback...');
     $sent = smtp_send_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $socketError);
     if (!$sent) {
-        $lastError = 'PHPMailer: [' . $lastError . '] | Socket: [' . $socketError . ']';
+        $lastError = 'SMTP: [' . $lastError . ' | ' . $socketError . ']';
+    }
+}
+
+// Attempt 3: HTTPS API Fallback (Bypasses Render outbound SMTP socket port blocks over Port 443)
+if (!$sent) {
+    $apiError = '';
+    error_log('SMTP failed. Attempting HTTPS API fallback...');
+    $sent = send_email_via_https_api($name, $email, $subject, $message, $htmlBody, $apiError);
+    if (!$sent) {
+        $lastError .= ' | ' . $apiError;
     }
 }
 
