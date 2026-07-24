@@ -611,7 +611,63 @@
       }
     });
 
-    const formStatus = document.getElementById('formStatus');
+    // Toast Notification System (Top Right Below Navbar)
+    function showToast(message, type = 'info', duration = 5000) {
+      let container = document.getElementById('toastContainer');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+      }
+
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+
+      let iconSvg = '';
+      if (type === 'success') {
+        iconSvg = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      } else if (type === 'error') {
+        iconSvg = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+      } else {
+        iconSvg = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+      }
+
+      toast.innerHTML = `
+        <div class="toast-icon">${iconSvg}</div>
+        <div class="toast-content">${message}</div>
+        <button class="toast-close" aria-label="Close alert">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      `;
+
+      container.appendChild(toast);
+
+      const removeToast = () => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, { once: true });
+      };
+
+      toast.querySelector('.toast-close').addEventListener('click', removeToast);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+      });
+
+      if (duration > 0) {
+        setTimeout(removeToast, duration);
+      }
+
+      return toast;
+    }
+
     const mailParams = new URLSearchParams(window.location.search);
     const mailState = mailParams.get('mail');
     const mailReason = mailParams.get('reason');
@@ -623,21 +679,15 @@
       url.hash = '#contact';
       history.replaceState({}, '', url.pathname + url.search + url.hash);
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-    }
 
-    if (formStatus) {
       if (mailState === 'sent') {
-        formStatus.textContent = 'Message sent successfully.';
-        formStatus.style.color = '#9ef0b1';
+        showToast('Message sent successfully.', 'success');
       } else if (mailState === 'failed') {
-        formStatus.textContent = mailReason ? 'Message could not be sent: ' + mailReason : 'Message could not be sent. Please try again.';
-        formStatus.style.color = '#ff9f9f';
+        showToast(mailReason ? 'Message could not be sent: ' + mailReason : 'Message could not be sent. Please try again.', 'error', 7000);
       } else if (mailState === 'error') {
-        formStatus.textContent = 'Please complete all fields before sending.';
-        formStatus.style.color = '#ffcf8a';
+        showToast('Please complete all fields before sending.', 'error');
       } else if (mailState === 'config') {
-        formStatus.textContent = 'Mail is not configured yet. Add SMTP credentials in .env.';
-        formStatus.style.color = '#ffcf8a';
+        showToast('Mail is not configured yet. Add credentials in .env.', 'error');
       }
     }
 
@@ -649,10 +699,7 @@
         const submitBtn = contactForm.querySelector('button[type="submit"]');
 
         if (submitBtn) submitBtn.disabled = true;
-        if (formStatus) {
-          formStatus.textContent = 'Sending message...';
-          formStatus.style.color = '#78c6ff';
-        }
+        const activeLoadingToast = showToast('Sending message...', 'info', 0);
 
         const formData = new FormData(contactForm);
         formData.append('access_key', 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb');
@@ -664,18 +711,22 @@
           });
           const result = await response.json();
 
+          if (activeLoadingToast && activeLoadingToast.parentNode) {
+            activeLoadingToast.parentNode.removeChild(activeLoadingToast);
+          }
+
           if (result.success) {
-            if (formStatus) {
-              formStatus.textContent = 'Message sent successfully.';
-              formStatus.style.color = '#9ef0b1';
-            }
+            showToast('Message sent successfully.', 'success', 5000);
             contactForm.reset();
           } else {
-            // Fallback to PHP backend if Web3Forms returns error
+            showToast('Web3Forms Error: ' + (result.message || 'Failed'), 'error', 6000);
             contactForm.submit();
           }
         } catch (err) {
-          // Fallback to PHP backend on network error
+          if (activeLoadingToast && activeLoadingToast.parentNode) {
+            activeLoadingToast.parentNode.removeChild(activeLoadingToast);
+          }
+          showToast('Network error. Submitting via server fallback...', 'info', 3000);
           contactForm.submit();
         } finally {
           if (submitBtn) submitBtn.disabled = false;
