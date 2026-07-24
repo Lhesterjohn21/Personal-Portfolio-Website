@@ -416,7 +416,7 @@
               </div>
               <div>
                 <div class="contact-side-label">Email</div>
-                <div class="contact-side-value">johnlhesterarco21@gmail.com</div>
+                <div class="contact-side-value"><a class="email-link" href="mailto:johnlhesterarco21@gmail.com">johnlhesterarco21@gmail.com</a></div>
               </div>
             </div>
             <div class="contact-side-item">
@@ -459,6 +459,12 @@
             <div class="find-me-section">
               <div class="find-me-title">Find me on</div>
               <div class="contact-socials">
+                <a class="social-icon-link" href="mailto:johnlhesterarco21@gmail.com" aria-label="Email">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                </a>
                 <a class="social-icon-link" href="https://github.com/Lhesterjohn21" target="_blank"
                   rel="noopener noreferrer" aria-label="GitHub">
                   <svg viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">

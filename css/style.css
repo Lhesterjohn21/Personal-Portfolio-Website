@@ -968,6 +968,18 @@ h1 {
   word-break: break-word;
 }
 
+.email-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.email-link:hover {
+  color: #4ade80;
+  text-decoration: underline;
+  text-shadow: 0 0 12px rgba(74, 222, 128, 0.4);
+}
+
 .projects-heading {
   display: flex;
   justify-content: space-between;
