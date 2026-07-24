@@ -612,6 +612,7 @@
     });
 
     const formStatus = document.getElementById('formStatus');
+    const contactForm = document.querySelector('.contact-form');
     const mailState = new URLSearchParams(window.location.search).get('mail');
 
     if (mailState !== null) {
@@ -636,6 +637,51 @@
         formStatus.textContent = 'Mail is not configured yet. Add SMTP credentials in .env.';
         formStatus.style.color = '#ffcf8a';
       }
+    }
+
+    if (contactForm && formStatus) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Send Message';
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.7';
+          submitBtn.textContent = 'Sending...';
+        }
+
+        formStatus.textContent = 'Sending message...';
+        formStatus.style.color = '#78c6ff';
+
+        const formData = new FormData(contactForm);
+        formData.append('access_key', 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb');
+
+        try {
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            formStatus.textContent = 'Message sent successfully.';
+            formStatus.style.color = '#9ef0b1';
+            contactForm.reset();
+          } else {
+            contactForm.submit();
+          }
+        } catch (err) {
+          contactForm.submit();
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.innerHTML = originalBtnHtml;
+          }
+        }
+      });
     }
   </script>
 </body>

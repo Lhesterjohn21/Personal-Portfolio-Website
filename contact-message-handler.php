@@ -314,7 +314,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
 
 function send_email_via_https_api(string $name, string $email, string $subject, string $message, string $targetEmail): bool
 {
-    $web3Key = env_value('WEB3FORMS_KEY', '');
+    $defaultWeb3Key = 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb';
+    $web3Key = env_value('WEB3FORMS_KEY', $defaultWeb3Key) ?? $defaultWeb3Key;
 
     if ($web3Key !== '') {
         $url = 'https://api.web3forms.com/submit';
