@@ -640,6 +640,48 @@
         formStatus.style.color = '#ffcf8a';
       }
     }
+
+    // Contact Form AJAX Submission with Web3Forms (Client-Side HTTPS API)
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (formStatus) {
+          formStatus.textContent = 'Sending message...';
+          formStatus.style.color = '#78c6ff';
+        }
+
+        const formData = new FormData(contactForm);
+        formData.append('access_key', 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb');
+
+        try {
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+          });
+          const result = await response.json();
+
+          if (result.success) {
+            if (formStatus) {
+              formStatus.textContent = 'Message sent successfully.';
+              formStatus.style.color = '#9ef0b1';
+            }
+            contactForm.reset();
+          } else {
+            // Fallback to PHP backend if Web3Forms returns error
+            contactForm.submit();
+          }
+        } catch (err) {
+          // Fallback to PHP backend on network error
+          contactForm.submit();
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
   </script>
 </body>
 

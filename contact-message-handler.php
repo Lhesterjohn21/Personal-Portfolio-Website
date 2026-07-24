@@ -533,19 +533,23 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
 
     // 3. Web3Forms HTTPS API (api.web3forms.com)
     if ($web3Key !== '') {
-        $payload = json_encode([
+        $fields = [
             'access_key' => $web3Key,
             'name' => $name,
             'email' => $email,
             'subject' => 'Portfolio Inquiry: ' . $subject,
             'message' => $message,
-        ]);
+            'from_name' => $name,
+        ];
 
         $ch = curl_init('https://api.web3forms.com/submit');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/x-www-form-urlencoded',
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        ]);
         curl_setopt($ch, CURLOPT_TIMEOUT, 15);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
@@ -560,7 +564,10 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
         }
 
         if ($httpCode >= 200 && $httpCode < 300) {
-            return true;
+            $json = json_decode((string)$response, true);
+            if (is_array($json) && isset($json['success']) && $json['success'] === true) {
+                return true;
+            }
         }
 
         $errorMsg = "Web3Forms HTTP $httpCode: " . substr((string)$response, 0, 100);
