@@ -295,16 +295,10 @@
           </article>
 
           <article class="project-card">
-            <div class="project-visual portfolio">
-              <div class="preview-card right">
-                <div class="preview-window"></div>
-                <div class="preview-body">
-                  <div class="mock-title">Hi, I&#39;m Rudy Boringot</div>
-                  <div class="mock-line long"></div>
-                  <div class="mock-line mid"></div>
-                  <div class="mock-panel"></div>
-                </div>
-              </div>
+            <div class="project-visual portfolio"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/myportfolio.png" alt="Personal Portfolio Screenshot"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
             </div>
             <div class="project-content">
               <h3 class="project-title">Personal Portfolio Website</h3>
