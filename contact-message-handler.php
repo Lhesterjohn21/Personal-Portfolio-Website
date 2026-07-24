@@ -147,7 +147,7 @@ function build_portfolio_email_html(string $name, string $email, string $subject
 </html>';
 }
 
-function smtp_send_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo): bool
+function smtp_send_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string &$errorMsg = ''): bool
 {
     $host = $config['host'] ?? 'smtp.gmail.com';
     $port = (int) ($config['port'] ?? 587);
@@ -157,7 +157,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $timeout = 15;
 
     if ($host === '' || $username === '' || $password === '' || $to === '') {
-        error_log('Custom SMTP Error: Missing required SMTP parameters.');
+        $errorMsg = 'Socket: Missing SMTP parameters';
+        error_log('Custom SMTP Error: ' . $errorMsg);
         return false;
     }
 
@@ -168,7 +169,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $socket = @stream_socket_client($remote, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT);
 
     if (!is_resource($socket)) {
-        error_log('Custom SMTP connect failed: [' . $errno . '] ' . $errstr);
+        $errorMsg = "Socket connect failed [$errno]: $errstr";
+        error_log($errorMsg);
         return false;
     }
 
@@ -200,7 +202,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
 
     $response = $read();
     if (!$expect($response, [220])) {
-        error_log('Custom SMTP Greeting Error: ' . trim($response));
+        $errorMsg = 'Socket Greeting: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -209,7 +212,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $response = $read();
 
     if (!$expect($response, [250])) {
-        error_log('Custom SMTP EHLO Error: ' . trim($response));
+        $errorMsg = 'Socket EHLO: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -219,13 +223,15 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
         $response = $read();
 
         if (!$expect($response, [220])) {
-            error_log('Custom SMTP STARTTLS Error: ' . trim($response));
+            $errorMsg = 'Socket STARTTLS: ' . trim($response);
+            error_log($errorMsg);
             fclose($socket);
             return false;
         }
 
         if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
-            error_log('Custom SMTP Crypto Enable Error.');
+            $errorMsg = 'Socket TLS handshake failed';
+            error_log($errorMsg);
             fclose($socket);
             return false;
         }
@@ -234,7 +240,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
         $response = $read();
 
         if (!$expect($response, [250])) {
-            error_log('Custom SMTP EHLO post-TLS Error: ' . trim($response));
+            $errorMsg = 'Socket EHLO post-TLS: ' . trim($response);
+            error_log($errorMsg);
             fclose($socket);
             return false;
         }
@@ -243,7 +250,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('AUTH LOGIN');
     $response = $read();
     if (!$expect($response, [334])) {
-        error_log('Custom SMTP AUTH LOGIN Error: ' . trim($response));
+        $errorMsg = 'Socket AUTH LOGIN: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -251,7 +259,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write(base64_encode($username));
     $response = $read();
     if (!$expect($response, [334])) {
-        error_log('Custom SMTP Username Error: ' . trim($response));
+        $errorMsg = 'Socket Username: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -259,7 +268,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write(base64_encode($password));
     $response = $read();
     if (!$expect($response, [235])) {
-        error_log('Custom SMTP Password Auth Error: ' . trim($response));
+        $errorMsg = 'Socket Auth Failed: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -293,7 +303,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('MAIL FROM:<' . $fromAddress . '>');
     $response = $read();
     if (!$expect($response, [250])) {
-        error_log('Custom SMTP MAIL FROM Error: ' . trim($response));
+        $errorMsg = 'Socket MAIL FROM: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -301,7 +312,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('RCPT TO:<' . $to . '>');
     $response = $read();
     if (!$expect($response, [250, 251])) {
-        error_log('Custom SMTP RCPT TO Error: ' . trim($response));
+        $errorMsg = 'Socket RCPT TO: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -309,7 +321,8 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('DATA');
     $response = $read();
     if (!$expect($response, [354])) {
-        error_log('Custom SMTP DATA Error: ' . trim($response));
+        $errorMsg = 'Socket DATA: ' . trim($response);
+        error_log($errorMsg);
         fclose($socket);
         return false;
     }
@@ -329,13 +342,18 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     $write('QUIT');
     fclose($socket);
 
-    return $expect($response, [250]);
+    $ok = $expect($response, [250]);
+    if (!$ok) {
+        $errorMsg = 'Socket Final Send: ' . trim($response);
+    }
+    return $ok;
 }
 
-function send_email_via_phpmailer(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $replyName = ''): bool
+function send_email_via_phpmailer(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo, string $replyName = '', string &$errorMsg = ''): bool
 {
     if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {
-        error_log('PHPMailer class missing. Autoload check failed.');
+        $errorMsg = 'PHPMailer class missing';
+        error_log($errorMsg);
         return false;
     }
 
@@ -349,6 +367,7 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
     ];
 
     $tried = [];
+    $errors = [];
 
     foreach ($attempts as $attempt) {
         $port = $attempt['port'];
@@ -383,7 +402,7 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
                 $mail->Port       = 587;
             }
 
-            $mail->Timeout    = 20;
+            $mail->Timeout    = 15;
             $mail->CharSet    = 'UTF-8';
 
             // Permissive SSL options for cloud containers (Render / Docker)
@@ -414,16 +433,19 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
                 return true;
             }
         } catch (Exception $e) {
-            error_log("PHPMailer Attempt (Port $port, $encryption) Exception: " . $e->getMessage() . ' | PHPMailer ErrorInfo: ' . ($mail->ErrorInfo ?? 'N/A'));
+            $err = "Port $port: " . $e->getMessage();
+            $errors[] = $err;
+            error_log("PHPMailer Attempt ($key) Exception: " . $e->getMessage() . ' | ErrorInfo: ' . ($mail->ErrorInfo ?? 'N/A'));
         }
     }
 
+    $errorMsg = implode('; ', $errors);
     return false;
 }
 
 load_env_file(__DIR__ . '/.env');
 
-function redirect_back_with_status(string $status): never
+function redirect_back_with_status(string $status, string $reason = ''): never
 {
     $referer = $_SERVER['HTTP_REFERER'] ?? '';
     $fallback = '/index.html';
@@ -443,6 +465,9 @@ function redirect_back_with_status(string $status): never
             }
 
             $query['mail'] = $status;
+            if ($reason !== '') {
+                $query['reason'] = $reason;
+            }
             $fragment = $parts['fragment'] ?? 'contact';
             $target = $path . '?' . http_build_query($query);
 
@@ -459,7 +484,13 @@ function redirect_back_with_status(string $status): never
         }
     }
 
-    header('Location: ' . $fallback . '?mail=' . rawurlencode($status) . '#contact', true, 303);
+    $target = $fallback . '?mail=' . rawurlencode($status);
+    if ($reason !== '') {
+        $target .= '&reason=' . rawurlencode($reason);
+    }
+    $target .= '#contact';
+
+    header('Location: ' . $target, true, 303);
     exit;
 }
 
@@ -527,17 +558,24 @@ $textBody = implode("\r\n", [
 
 $htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
 
+$lastError = '';
+
 // Attempt sending via PHPMailer first
-$sent = send_email_via_phpmailer($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $name);
+$sent = send_email_via_phpmailer($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $name, $lastError);
 
 // Fallback to custom SMTP socket if PHPMailer returns false
 if (!$sent) {
-    error_log('PHPMailer failed. Attempting custom socket fallback...');
-    $sent = smtp_send_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email);
+    $socketError = '';
+    error_log('PHPMailer failed (' . $lastError . '). Attempting custom socket fallback...');
+    $sent = smtp_send_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email, $socketError);
+    if (!$sent) {
+        $lastError = 'PHPMailer: [' . $lastError . '] | Socket: [' . $socketError . ']';
+    }
 }
 
 if (!$sent) {
-    error_log('Email sending completely failed on both PHPMailer and custom SMTP socket.');
+    error_log('Email sending failed completely: ' . $lastError);
+    redirect_back_with_status('failed', $lastError);
 }
 
-redirect_back_with_status($sent ? 'sent' : 'failed');
+redirect_back_with_status('sent');

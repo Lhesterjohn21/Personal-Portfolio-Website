@@ -612,11 +612,14 @@
     });
 
     const formStatus = document.getElementById('formStatus');
-    const mailState = new URLSearchParams(window.location.search).get('mail');
+    const mailParams = new URLSearchParams(window.location.search);
+    const mailState = mailParams.get('mail');
+    const mailReason = mailParams.get('reason');
 
     if (mailState !== null) {
       const url = new URL(window.location.href);
       url.searchParams.delete('mail');
+      url.searchParams.delete('reason');
       url.hash = '#contact';
       history.replaceState({}, '', url.pathname + url.search + url.hash);
       document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -627,7 +630,7 @@
         formStatus.textContent = 'Message sent successfully.';
         formStatus.style.color = '#9ef0b1';
       } else if (mailState === 'failed') {
-        formStatus.textContent = 'Message could not be sent. Please try again.';
+        formStatus.textContent = mailReason ? 'Message could not be sent: ' + mailReason : 'Message could not be sent. Please try again.';
         formStatus.style.color = '#ff9f9f';
       } else if (mailState === 'error') {
         formStatus.textContent = 'Please complete all fields before sending.';
