@@ -283,7 +283,7 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     }
 
     $fromName = $config['from_name'] ?? 'John Lhester Arco';
-    $fromAddress = $username; // Use authenticated Gmail username to prevent 550 sender errors
+    $fromAddress = $username;
     $boundary = '=_Portfolio_' . bin2hex(random_bytes(12));
 
     $headers = [
@@ -390,8 +390,7 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
         try {
             $mail = new PHPMailer(true);
 
-            // Enable detailed SMTP output printed directly to error_log (visible in Render logs)
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER; // Level 2
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
             $mail->Debugoutput = static function (string $str, int $level): void {
                 error_log("PHPMailer SMTP [$level]: $str");
             };
@@ -413,7 +412,6 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
             $mail->Timeout    = 15;
             $mail->CharSet    = 'UTF-8';
 
-            // Permissive SSL options for cloud containers (Render / Docker)
             $mail->SMTPOptions = [
                 'ssl' => [
                     'verify_peer' => false,
@@ -424,7 +422,6 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
 
             $fromName = !empty($config['from_name']) ? $config['from_name'] : 'John Lhester Arco';
 
-            // Always use authenticated Gmail address for setFrom to satisfy Gmail strict policy
             $mail->setFrom($config['username'], $fromName);
             $mail->addAddress($to);
 
@@ -451,126 +448,11 @@ function send_email_via_phpmailer(array $config, string $to, string $subject, st
     return false;
 }
 
-load_env_file(__DIR__ . '/.env');
-
-function redirect_back_with_status(string $status, string $reason = ''): never
-{
-    $referer = $_SERVER['HTTP_REFERER'] ?? '';
-    $fallback = '/index.html';
-
-    if ($referer !== '') {
-        $parts = parse_url($referer);
-
-        if (is_array($parts) && isset($parts['path'])) {
-            $scheme = $parts['scheme'] ?? '';
-            $host = $parts['host'] ?? '';
-            $port = isset($parts['port']) ? ':' . $parts['port'] : '';
-            $path = $parts['path'];
-            $query = [];
-
-            if (!empty($parts['query'])) {
-                parse_str($parts['query'], $query);
-            }
-
-            $query['mail'] = $status;
-            if ($reason !== '') {
-                $query['reason'] = $reason;
-            }
-            $fragment = $parts['fragment'] ?? 'contact';
-            $target = $path . '?' . http_build_query($query);
-
-            if ($fragment !== '') {
-                $target .= '#' . $fragment;
-            }
-
-            if ($scheme !== '') {
-                $target = $scheme . '://' . $host . $port . $target;
-            }
-
-            header('Location: ' . $target, true, 303);
-            exit;
-        }
-    }
-
-    $target = $fallback . '?mail=' . rawurlencode($status);
-    if ($reason !== '') {
-        $target .= '&reason=' . rawurlencode($reason);
-    }
-    $target .= '#contact';
-
-    header('Location: ' . $target, true, 303);
-    exit;
-}
-
-if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
-    redirect_back_with_status('error');
-}
-
-$name = trim((string) ($_POST['name'] ?? ''));
-$email = trim((string) ($_POST['email'] ?? ''));
-$subject = trim((string) ($_POST['subject'] ?? ''));
-$message = trim((string) ($_POST['message'] ?? ''));
-
-if ($name === '' || $email === '' || $subject === '' || $message === '') {
-    redirect_back_with_status('error');
-}
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    redirect_back_with_status('error');
-}
-
-// Extract and sanitize raw environment variables with auto-correction for common typos
-$rawHost = sanitize_env_string(env_value('MAIL_HOST', 'smtp.gmail.com'));
-if ($rawHost === '' || str_contains($rawHost, 'smto')) {
-    $rawHost = 'smtp.gmail.com';
-}
-
-$rawPort = (int) sanitize_env_string(env_value('MAIL_PORT', '587'));
-if ($rawPort !== 587 && $rawPort !== 465 && $rawPort !== 25) {
-    $rawPort = 587;
-}
-
-$rawUsername = sanitize_env_string(env_value('MAIL_USERNAME', 'johnlhesterarco21@gmail.com'));
-if ($rawUsername === '') {
-    $rawUsername = 'johnlhesterarco21@gmail.com';
-}
-
-$rawPassword = normalize_mail_password(env_value('MAIL_PASSWORD', 'zkylrvfrbxhhumwo') ?? 'zkylrvfrbxhhumwo');
-if ($rawPassword === '') {
-    $rawPassword = 'zkylrvfrbxhhumwo';
-}
-
-$to = sanitize_env_string(env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com')) ?: 'johnlhesterarco21@gmail.com';
-
-$smtpConfig = [
-    'host' => $rawHost,
-    'port' => $rawPort,
-    'username' => $rawUsername,
-    'password' => $rawPassword,
-    'encryption' => sanitize_env_string(env_value('MAIL_ENCRYPTION', 'tls')) ?: 'tls',
-    'from_name' => sanitize_env_string(env_value('MAIL_FROM_NAME', 'John Lhester Arco')) ?: 'John Lhester Arco',
-    'from_address' => sanitize_env_string(env_value('MAIL_FROM_ADDRESS', $rawUsername)) ?: $rawUsername,
-];
-
-$mailSubject = 'Portfolio Inquiry: ' . $subject;
-$textBody = implode("\r\n", [
-    'You received a new portfolio message.',
-    '',
-    'Name: ' . $name,
-    'Email: ' . $email,
-    'Subject: ' . $subject,
-    '',
-    'Message:',
-    $message,
-]);
-
-$htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
-
 function send_email_via_https_api(string $name, string $email, string $subject, string $message, string $htmlBody, string &$errorMsg = ''): bool
 {
     $webhookUrl = env_value('MAIL_WEBHOOK_URL', '');
     $resendKey = env_value('RESEND_API_KEY', '');
-    $web3Key = env_value('WEB3FORMS_ACCESS_KEY', '');
+    $web3Key = sanitize_env_string(env_value('WEB3FORMS_ACCESS_KEY', 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb')) ?: 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb';
 
     // 1. Google Apps Script WebApp or Custom Webhook URL
     if ($webhookUrl !== '') {
@@ -688,6 +570,120 @@ function send_email_via_https_api(string $name, string $email, string $subject, 
     $errorMsg = 'HTTPS API: Set WEB3FORMS_ACCESS_KEY, RESEND_API_KEY, or MAIL_WEBHOOK_URL in Render';
     return false;
 }
+
+load_env_file(__DIR__ . '/.env');
+
+function redirect_back_with_status(string $status, string $reason = ''): never
+{
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+    $fallback = '/index.html';
+
+    if ($referer !== '') {
+        $parts = parse_url($referer);
+
+        if (is_array($parts) && isset($parts['path'])) {
+            $scheme = $parts['scheme'] ?? '';
+            $host = $parts['host'] ?? '';
+            $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+            $path = $parts['path'];
+            $query = [];
+
+            if (!empty($parts['query'])) {
+                parse_str($parts['query'], $query);
+            }
+
+            $query['mail'] = $status;
+            if ($reason !== '') {
+                $query['reason'] = $reason;
+            }
+            $fragment = $parts['fragment'] ?? 'contact';
+            $target = $path . '?' . http_build_query($query);
+
+            if ($fragment !== '') {
+                $target .= '#' . $fragment;
+            }
+
+            if ($scheme !== '') {
+                $target = $scheme . '://' . $host . $port . $target;
+            }
+
+            header('Location: ' . $target, true, 303);
+            exit;
+        }
+    }
+
+    $target = $fallback . '?mail=' . rawurlencode($status);
+    if ($reason !== '') {
+        $target .= '&reason=' . rawurlencode($reason);
+    }
+    $target .= '#contact';
+
+    header('Location: ' . $target, true, 303);
+    exit;
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    redirect_back_with_status('error');
+}
+
+$name = trim((string) ($_POST['name'] ?? ''));
+$email = trim((string) ($_POST['email'] ?? ''));
+$subject = trim((string) ($_POST['subject'] ?? ''));
+$message = trim((string) ($_POST['message'] ?? ''));
+
+if ($name === '' || $email === '' || $subject === '' || $message === '') {
+    redirect_back_with_status('error');
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    redirect_back_with_status('error');
+}
+
+$rawHost = sanitize_env_string(env_value('MAIL_HOST', 'smtp.gmail.com'));
+if ($rawHost === '' || str_contains($rawHost, 'smto')) {
+    $rawHost = 'smtp.gmail.com';
+}
+
+$rawPort = (int) sanitize_env_string(env_value('MAIL_PORT', '587'));
+if ($rawPort !== 587 && $rawPort !== 465 && $rawPort !== 25) {
+    $rawPort = 587;
+}
+
+$rawUsername = sanitize_env_string(env_value('MAIL_USERNAME', 'johnlhesterarco21@gmail.com'));
+if ($rawUsername === '') {
+    $rawUsername = 'johnlhesterarco21@gmail.com';
+}
+
+$rawPassword = normalize_mail_password(env_value('MAIL_PASSWORD', 'zkylrvfrbxhhumwo') ?? 'zkylrvfrbxhhumwo');
+if ($rawPassword === '') {
+    $rawPassword = 'zkylrvfrbxhhumwo';
+}
+
+$to = sanitize_env_string(env_value('MAIL_TO_ADDRESS', 'johnlhesterarco21@gmail.com')) ?: 'johnlhesterarco21@gmail.com';
+
+$smtpConfig = [
+    'host' => $rawHost,
+    'port' => $rawPort,
+    'username' => $rawUsername,
+    'password' => $rawPassword,
+    'encryption' => sanitize_env_string(env_value('MAIL_ENCRYPTION', 'tls')) ?: 'tls',
+    'from_name' => sanitize_env_string(env_value('MAIL_FROM_NAME', 'John Lhester Arco')) ?: 'John Lhester Arco',
+    'from_address' => sanitize_env_string(env_value('MAIL_FROM_ADDRESS', $rawUsername)) ?: $rawUsername,
+];
+
+$mailSubject = 'Portfolio Inquiry: ' . $subject;
+$textBody = implode("\r\n", [
+    'You received a new portfolio message.',
+    '',
+    'Name: ' . $name,
+    'Email: ' . $email,
+    'Subject: ' . $subject,
+    '',
+    'Message:',
+    $message,
+]);
+
+$htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
 
 $lastError = '';
 
