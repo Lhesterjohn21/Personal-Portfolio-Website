@@ -299,6 +299,52 @@ function smtp_send_mail(array $config, string $to, string $subject, string $text
     return $expect($response, [250]);
 }
 
+function send_portfolio_mail(array $config, string $to, string $subject, string $textBody, string $htmlBody, string $replyTo): bool
+{
+    // Attempt 1: Port 465 SSL (Recommended for Render & cloud hosts)
+    $config465 = $config;
+    $config465['port'] = 465;
+    $config465['encryption'] = 'ssl';
+    if (smtp_send_mail($config465, $to, $subject, $textBody, $htmlBody, $replyTo)) {
+        return true;
+    }
+
+    // Attempt 2: Port 587 TLS
+    $config587 = $config;
+    $config587['port'] = 587;
+    $config587['encryption'] = 'tls';
+    if (smtp_send_mail($config587, $to, $subject, $textBody, $htmlBody, $replyTo)) {
+        return true;
+    }
+
+    // Attempt 3: Custom config as provided
+    if (smtp_send_mail($config, $to, $subject, $textBody, $htmlBody, $replyTo)) {
+        return true;
+    }
+
+    // Attempt 4: PHP native mail() fallback
+    $fromName = $config['from_name'] ?? 'John Lhester Arco';
+    $fromAddress = $config['from_address'] ?? ($config['username'] ?? 'johnlhesterarco21@gmail.com');
+    $boundary = '=_Portfolio_' . bin2hex(random_bytes(12));
+
+    $headers = [
+        'From: ' . $fromName . ' <' . $fromAddress . '>',
+        'Reply-To: ' . $replyTo,
+        'MIME-Version: 1.0',
+        'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
+    ];
+
+    $messageData = '--' . $boundary . "\r\n";
+    $messageData .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
+    $messageData .= $textBody . "\r\n\r\n";
+    $messageData .= '--' . $boundary . "\r\n";
+    $messageData .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
+    $messageData .= $htmlBody . "\r\n\r\n";
+    $messageData .= '--' . $boundary . "--";
+
+    return @mail($to, $subject, $messageData, implode("\r\n", $headers));
+}
+
 load_env_file(__DIR__ . '/.env');
 
 function redirect_back_with_status(string $status): never
@@ -364,10 +410,10 @@ $defaultMailPass = 'lmmd nywx dijc ynij';
 
 $smtpConfig = [
     'host' => env_value('MAIL_HOST', 'smtp.gmail.com'),
-    'port' => env_value('MAIL_PORT', '587'),
+    'port' => env_value('MAIL_PORT', '465'),
     'username' => env_value('MAIL_USERNAME', $defaultMailUser),
     'password' => env_value('MAIL_PASSWORD', $defaultMailPass),
-    'encryption' => env_value('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env_value('MAIL_ENCRYPTION', 'ssl'),
     'from_name' => env_value('MAIL_FROM_NAME', 'John Lhester Arco'),
     'from_address' => env_value('MAIL_FROM_ADDRESS', env_value('MAIL_USERNAME', $defaultMailUser)),
 ];
@@ -390,10 +436,6 @@ $textBody = implode("\r\n", [
 
 $htmlBody = build_portfolio_email_html($name, $email, $subject, $message);
 
-$headers = [
-    'Reply-To: ' . $email,
-];
-
-$sent = smtp_send_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email);
+$sent = send_portfolio_mail($smtpConfig, $to, $mailSubject, $textBody, $htmlBody, $email);
 
 redirect_back_with_status($sent ? 'sent' : 'failed');
