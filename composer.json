@@ -4,7 +4,8 @@
   "description": "Portfolio site for John Lhester Arco built with Laravel.",
   "require": {
     "php": "^8.2",
-    "laravel/framework": "^11.0"
+    "laravel/framework": "^11.0",
+    "phpmailer/phpmailer": "*"
   },
   "autoload": {
     "psr-4": {
