@@ -99,34 +99,22 @@ body {
 
 /* Logo with Corner Accent Brackets */
 .brand {
-  position: relative;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: #ffffff;
   text-decoration: none;
   display: inline-block;
-  padding: 10px 16px;
+  padding: 4px 0;
+  transition: color 0.25s ease;
 }
 
-.brand-bracket-tl {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 14px;
-  height: 14px;
-  border-top: 3px solid var(--accent);
-  border-left: 3px solid var(--accent);
+.brand span {
+  color: var(--accent);
 }
 
-.brand-bracket-br {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 14px;
-  height: 14px;
-  border-bottom: 3px solid var(--accent);
-  border-right: 3px solid var(--accent);
+.brand:hover {
+  color: var(--accent-2);
 }
 
 .sidebar-nav {

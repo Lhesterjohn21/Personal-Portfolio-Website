@@ -14,11 +14,7 @@
 
   <!-- Mobile Top Header -->
   <header class="mobile-header">
-    <a class="brand" href="#home">
-      <span class="brand-bracket-tl"></span>
-      <span class="brand-bracket-br"></span>
-      Lhester
-    </a>
+    <a class="brand" href="#home">&lt;<span>/</span>Lhester&gt;</a>
     <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Toggle navigation sidebar">
       <span class="hamburger-bar"></span>
       <span class="hamburger-bar"></span>
@@ -29,11 +25,7 @@
   <!-- Left Sidebar Navigation -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <a class="brand" href="#home">
-        <span class="brand-bracket-tl"></span>
-        <span class="brand-bracket-br"></span>
-        Lhester
-      </a>
+      <a class="brand" href="#home">&lt;<span>/</span>Lhester&gt;</a>
       <nav class="sidebar-nav" aria-label="Primary Navigation">
         <ul class="sidebar-links">
           <li>
