@@ -372,7 +372,6 @@
         <div class="contact-card">
           <form id="contactForm" action="contact-message-handler.php" method="POST">
             <input type="hidden" name="access_key" value="9b6f84ee-a54c-473d-82d8-bfad1e4f4ee0" />
-            <input type="hidden" name="subject" value="New Portfolio Contact Message" />
 
             <div class="field">
               <label for="name">Name</label>
@@ -381,6 +380,10 @@
             <div class="field">
               <label for="email">Email</label>
               <input type="email" id="email" name="email" required placeholder="" />
+            </div>
+            <div class="field">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" required placeholder="" />
             </div>
             <div class="field">
               <label for="message">Message</label>
@@ -398,7 +401,7 @@
           </p>
           <div style="margin-bottom: 20px;">
             <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">Email</div>
-            <div style="font-weight: 700; color: var(--accent);">johnlhesterarco.official@gmail.com</div>
+            <div style="font-weight: 700; color: var(--accent);">johnlhesterarco21@gmail.com</div>
           </div>
           <div style="margin-bottom: 24px;">
             <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">Location</div>
