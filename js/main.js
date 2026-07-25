@@ -1,18 +1,17 @@
 /**
- * Personal Portfolio Website - Interactive & Micro-animations
- * Sleek Dark & Crimson/Coral Red Theme
+ * Personal Portfolio Website - Crimson Red Theme & Interactive Micro-animations
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initCursorSpotlight();
   initParticleCanvas();
+  initTypewriterEffect();
   initScrollReveal();
   init3DTilt();
   initResumeDropdown();
   initContactForm();
   initActiveNav();
-  initTypewriter();
 });
 
 /* -------------------------------------------------------------
@@ -33,6 +32,7 @@ function initMobileNav() {
     document.body.classList.toggle('menu-open', isOpen);
   });
 
+  // Automatically close menu when a nav item is tapped
   navLinks.forEach((link) => {
     link.addEventListener('click', () => {
       navMenu.classList.remove('is-open');
@@ -42,6 +42,7 @@ function initMobileNav() {
     });
   });
 
+  // Close menu when tapping anywhere outside
   document.addEventListener('click', (e) => {
     if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
       navMenu.classList.remove('is-open');
@@ -53,7 +54,7 @@ function initMobileNav() {
 }
 
 /* -------------------------------------------------------------
- * 1. Interactive Cursor Spotlight (Crimson Coral Glow)
+ * 1. Interactive Cursor Crimson Spotlight
  * ------------------------------------------------------------- */
 function initCursorSpotlight() {
   const spotlight = document.getElementById('cursor-spotlight');
@@ -73,14 +74,14 @@ function initCursorSpotlight() {
     currentX += (mouseX - currentX) * 0.15;
     currentY += (mouseY - currentY) * 0.15;
 
-    spotlight.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, rgba(255, 77, 77, 0.12), transparent 70%)`;
+    spotlight.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, rgba(239, 68, 68, 0.14), transparent 70%)`;
     requestAnimationFrame(animateSpotlight);
   }
   animateSpotlight();
 }
 
 /* -------------------------------------------------------------
- * 2. Ambient Particle Canvas Background (Crimson Dots)
+ * 2. Ambient Particle Canvas Background (Crimson Particles)
  * ------------------------------------------------------------- */
 function initParticleCanvas() {
   const canvas = document.getElementById('bg-canvas');
@@ -127,9 +128,9 @@ function initParticleCanvas() {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 77, 77, ${Math.max(0.05, Math.min(0.6, this.opacity))})`;
+      ctx.fillStyle = `rgba(239, 68, 68, ${Math.max(0.05, Math.min(0.65, this.opacity))})`;
       ctx.shadowBlur = 10;
-      ctx.shadowColor = 'rgba(255, 77, 77, 0.4)';
+      ctx.shadowColor = 'rgba(239, 68, 68, 0.4)';
       ctx.fill();
       ctx.shadowBlur = 0;
     }
@@ -151,7 +152,54 @@ function initParticleCanvas() {
 }
 
 /* -------------------------------------------------------------
- * 3. Scroll Reveal Observer
+ * 3. Dynamic Typewriter Headline Effect
+ * ------------------------------------------------------------- */
+function initTypewriterEffect() {
+  const target = document.getElementById('typewriter-text');
+  if (!target) return;
+
+  const words = [
+    'Web Developer',
+    'Full-Stack Developer',
+    'Laravel & React Developer',
+    'IT Graduate'
+  ];
+
+  let wordIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typeSpeed = 100;
+
+  function type() {
+    const currentWord = words[wordIndex];
+
+    if (isDeleting) {
+      target.textContent = currentWord.substring(0, charIndex - 1);
+      charIndex--;
+      typeSpeed = 50;
+    } else {
+      target.textContent = currentWord.substring(0, charIndex + 1);
+      charIndex++;
+      typeSpeed = 100;
+    }
+
+    if (!isDeleting && charIndex === currentWord.length) {
+      typeSpeed = 2000; // Pause at end of word
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+      typeSpeed = 400; // Pause before starting next word
+    }
+
+    setTimeout(type, typeSpeed);
+  }
+
+  type();
+}
+
+/* -------------------------------------------------------------
+ * 4. Scroll Reveal Observer
  * ------------------------------------------------------------- */
 function initScrollReveal() {
   const revealElements = document.querySelectorAll('[data-reveal]');
@@ -179,7 +227,7 @@ function initScrollReveal() {
 }
 
 /* -------------------------------------------------------------
- * 4. Interactive 3D Card Tilt Effect
+ * 5. Interactive 3D Card Tilt Effect
  * ------------------------------------------------------------- */
 function init3DTilt() {
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
@@ -211,7 +259,7 @@ function init3DTilt() {
 }
 
 /* -------------------------------------------------------------
- * 5. Resume Dropdown Interactions
+ * 6. Resume Dropdown Interactions
  * ------------------------------------------------------------- */
 function initResumeDropdown() {
   const dropdowns = document.querySelectorAll('.resume-dropdown');
@@ -256,7 +304,7 @@ function initResumeDropdown() {
 }
 
 /* -------------------------------------------------------------
- * 6. Contact Form Micro-Interactions & Toast Feedback
+ * 7. Contact Form Micro-Interactions & Toast Feedback
  * ------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -264,7 +312,7 @@ function initContactForm() {
 
   const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', () => {
+  form.addEventListener('submit', (e) => {
     if (!submitBtn) return;
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
@@ -273,7 +321,7 @@ function initContactForm() {
 }
 
 /* -------------------------------------------------------------
- * 7. Active Navigation Indicator
+ * 8. Active Navigation Indicator
  * ------------------------------------------------------------- */
 function initActiveNav() {
   const sections = document.querySelectorAll('section[id], main[id]');
@@ -300,49 +348,4 @@ function initActiveNav() {
       }
     });
   });
-}
-
-/* -------------------------------------------------------------
- * 8. Dynamic Typewriter Effect
- * ------------------------------------------------------------- */
-function initTypewriter() {
-  const el = document.getElementById('typewriterText');
-  if (!el) return;
-
-  const phrases = [
-    'IT Graduate',
-    'Aspiring Web Developer'
-  ];
-
-  let phraseIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typingSpeed = 100;
-
-  function type() {
-    const currentPhrase = phrases[phraseIndex];
-
-    if (isDeleting) {
-      el.textContent = currentPhrase.substring(0, charIndex - 1);
-      charIndex--;
-      typingSpeed = 50;
-    } else {
-      el.textContent = currentPhrase.substring(0, charIndex + 1);
-      charIndex++;
-      typingSpeed = 110;
-    }
-
-    if (!isDeleting && charIndex === currentPhrase.length) {
-      typingSpeed = 1800; // Pause at full phrase
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      phraseIndex = (phraseIndex + 1) % phrases.length;
-      typingSpeed = 400; // Pause before typing next phrase
-    }
-
-    setTimeout(type, typingSpeed);
-  }
-
-  type();
 }
