@@ -790,6 +790,12 @@ body {
   font-family: var(--font-code);
 }
 
+.code-line {
+  display: block;
+  line-height: 1.8;
+  white-space: pre;
+}
+
 /* Syntax Highlighting Colors */
 .token-keyword { color: #c678dd; font-weight: 600; } /* const */
 .token-variable { color: #61afef; } /* developer */

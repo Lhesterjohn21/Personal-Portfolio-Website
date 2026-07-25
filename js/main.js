@@ -582,12 +582,17 @@ function initCodeTypewriter() {
   let currentLineIndex = 0;
   let isTypingStarted = false;
 
+  const cursorSpan = document.createElement('span');
+  cursorSpan.className = 'typewriter-cursor';
+  cursorSpan.textContent = '|';
+
   function typeCode() {
     if (currentLineIndex < codeLines.length) {
       const lineDiv = document.createElement('div');
       lineDiv.className = 'code-line';
       lineDiv.innerHTML = codeLines[currentLineIndex];
       codeElement.appendChild(lineDiv);
+      lineDiv.appendChild(cursorSpan);
       currentLineIndex++;
       setTimeout(typeCode, 140);
     }
