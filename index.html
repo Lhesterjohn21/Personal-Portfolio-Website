@@ -402,7 +402,7 @@
           </div>
           <div style="margin-bottom: 24px;">
             <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 4px;">Location</div>
-            <div style="font-weight: 600; color: #ffffff;">Pili Camarines Sur, Philippines</div>
+            <div style="font-weight: 600; color: #ffffff;">Pili, Camarines Sur, Philippines</div>
           </div>
           <div class="contact-socials">
             <a class="social-icon-link" href="https://github.com/Lhesterjohn21" target="_blank"
