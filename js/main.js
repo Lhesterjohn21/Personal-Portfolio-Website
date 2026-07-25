@@ -384,9 +384,81 @@ function initContactForm() {
     window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
   }
 
+  // Live input handlers & character limits
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const subjectInput = document.getElementById('subject');
+  const messageInput = document.getElementById('message');
+
+  const subjectCount = document.getElementById('subjectCount');
+  const messageCount = document.getElementById('messageCount');
+
+  // Prevent numbers in Name input in real-time
+  if (nameInput) {
+    nameInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/[0-9]/g, '');
+    });
+  }
+
+  // Live character counter for Subject (Max 100)
+  if (subjectInput && subjectCount) {
+    const updateSubjectCount = () => {
+      const len = subjectInput.value.length;
+      subjectCount.textContent = `${len} / 100`;
+      subjectCount.classList.toggle('limit-near', len >= 90);
+    };
+    subjectInput.addEventListener('input', updateSubjectCount);
+    updateSubjectCount();
+  }
+
+  // Live character counter for Message (Max 1000)
+  if (messageInput && messageCount) {
+    const updateMessageCount = () => {
+      const len = messageInput.value.length;
+      messageCount.textContent = `${len} / 1000`;
+      messageCount.classList.toggle('limit-near', len >= 900);
+    };
+    messageInput.addEventListener('input', updateMessageCount);
+    updateMessageCount();
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!submitBtn) return;
+
+    const nameVal = (nameInput ? nameInput.value : '').trim();
+    const emailVal = (emailInput ? emailInput.value : '').trim();
+    const subjectVal = (subjectInput ? subjectInput.value : '').trim();
+    const messageVal = (messageInput ? messageInput.value : '').trim();
+
+    // 1. Name validation (no numbers allowed)
+    if (/[0-9]/.test(nameVal)) {
+      showToast('error', 'Invalid Name', 'Name must contain letters only (no numbers allowed).');
+      if (nameInput) nameInput.focus();
+      return;
+    }
+
+    // 2. Email validation (strict format check)
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(emailVal)) {
+      showToast('error', 'Invalid Email', 'Please enter a valid email address (e.g., name@example.com).');
+      if (emailInput) emailInput.focus();
+      return;
+    }
+
+    // 3. Subject validation (limit 100)
+    if (subjectVal.length > 100) {
+      showToast('error', 'Subject Limit Exceeded', 'Subject must not exceed 100 characters.');
+      if (subjectInput) subjectInput.focus();
+      return;
+    }
+
+    // 4. Message validation (limit 1000)
+    if (messageVal.length > 1000) {
+      showToast('error', 'Message Limit Exceeded', 'Message text must not exceed 1000 characters.');
+      if (messageInput) messageInput.focus();
+      return;
+    }
 
     const originalBtnText = submitBtn.innerText;
     submitBtn.classList.add('loading');
@@ -414,6 +486,8 @@ function initContactForm() {
 
       if (response.ok && (result.success !== false)) {
         form.reset();
+        if (subjectCount) subjectCount.textContent = '0 / 100';
+        if (messageCount) messageCount.textContent = '0 / 1000';
         showToast('success', 'Email Sent Successfully!', 'Thank you for reaching out! I will respond to your message as soon as possible.');
       } else {
         const errorMsg = result.reason || result.message || 'There was an issue sending your message. Please try again.';

@@ -374,20 +374,33 @@
             <input type="hidden" name="access_key" value="9b6f84ee-a54c-473d-82d8-bfad1e4f4ee0" />
 
             <div class="field">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required placeholder="" />
+              <div class="field-header">
+                <label for="name">Name</label>
+              </div>
+              <input type="text" id="name" name="name" required maxlength="60" pattern="^[A-Za-z\s'\-\.]+$" title="Name must contain letters only (no numbers)." placeholder="Your full name" />
             </div>
+
             <div class="field">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="" />
+              <div class="field-header">
+                <label for="email">Email</label>
+              </div>
+              <input type="email" id="email" name="email" required maxlength="100" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address." placeholder="your.email@example.com" />
             </div>
+
             <div class="field">
-              <label for="subject">Subject</label>
-              <input type="text" id="subject" name="subject" required placeholder="" />
+              <div class="field-header">
+                <label for="subject">Subject</label>
+                <span class="char-counter" id="subjectCount">0 / 100</span>
+              </div>
+              <input type="text" id="subject" name="subject" required maxlength="100" placeholder="Message subject" />
             </div>
+
             <div class="field">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" required placeholder=""></textarea>
+              <div class="field-header">
+                <label for="message">Message</label>
+                <span class="char-counter" id="messageCount">0 / 1000</span>
+              </div>
+              <textarea id="message" name="message" rows="5" required maxlength="1000" placeholder="Write your message here..."></textarea>
             </div>
             <button type="submit" class="button primary" style="width: 100%;">Send Message</button>
           </form>

@@ -892,6 +892,28 @@ body {
   margin-bottom: 8px;
 }
 
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.field-header label {
+  margin-bottom: 0 !important;
+}
+
+.char-counter {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: var(--font-code);
+  transition: color 0.2s ease;
+}
+
+.char-counter.limit-near {
+  color: var(--accent);
+}
+
 .field input, .field textarea {
   width: 100%;
   padding: 14px 18px;

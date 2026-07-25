@@ -654,11 +654,23 @@ $subject = trim((string) ($_POST['subject'] ?? ''));
 $message = trim((string) ($_POST['message'] ?? ''));
 
 if ($name === '' || $email === '' || $subject === '' || $message === '') {
-    redirect_back_with_status('error');
+    redirect_back_with_status('error', 'All fields are required.');
+}
+
+if (preg_match('/[0-9]/', $name)) {
+    redirect_back_with_status('error', 'Name must contain letters only (no numbers allowed).');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    redirect_back_with_status('error');
+    redirect_back_with_status('error', 'Please enter a valid email address.');
+}
+
+if (mb_strlen($subject) > 100) {
+    redirect_back_with_status('error', 'Subject exceeds 100 characters limit.');
+}
+
+if (mb_strlen($message) > 1000) {
+    redirect_back_with_status('error', 'Message exceeds 1000 characters limit.');
 }
 
 $rawHost = sanitize_env_string(env_value('MAIL_HOST', 'smtp.gmail.com'));
