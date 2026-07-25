@@ -1,60 +1,170 @@
 /**
- * Personal Portfolio Website - Crimson Red Theme & Interactive Micro-animations
+ * Personal Portfolio Website - Atlas Style Vertical Sidebar & Theme Switcher
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initMobileNav();
+  initThemeSwitcher();
+  initTypewriter();
+  initSidebarNav();
   initCursorSpotlight();
   initParticleCanvas();
-  initTypewriterEffect();
   initScrollReveal();
   init3DTilt();
   initResumeDropdown();
   initContactForm();
-  initActiveNav();
 });
 
 /* -------------------------------------------------------------
- * 0. Mobile Hamburger Menu Toggle & Responsiveness
+ * 1. Theme Color Switcher & LocalStorage Persistence
  * ------------------------------------------------------------- */
-function initMobileNav() {
-  const navToggle = document.getElementById('navToggle');
-  const navMenu = document.getElementById('navMenu');
-  const navLinks = document.querySelectorAll('.nav-links a');
+function initThemeSwitcher() {
+  const toggleBtn = document.getElementById('themeToggleBtn');
+  const palette = document.getElementById('themePalette');
+  const colorBtns = document.querySelectorAll('.theme-color-btn');
 
-  if (!navToggle || !navMenu) return;
+  if (toggleBtn && palette) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      palette.classList.toggle('active');
+    });
 
-  navToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = navMenu.classList.toggle('is-open');
-    navToggle.classList.toggle('is-active');
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    document.body.classList.toggle('menu-open', isOpen);
-  });
+    document.addEventListener('click', (e) => {
+      if (!palette.contains(e.target) && !toggleBtn.contains(e.target)) {
+        palette.classList.remove('active');
+      }
+    });
+  }
 
-  // Automatically close menu when a nav item is tapped
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      navMenu.classList.remove('is-open');
-      navToggle.classList.remove('is-active');
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
+  // Load saved theme from localStorage
+  const savedTheme = localStorage.getItem('portfolio_theme') || 'orange';
+  setTheme(savedTheme);
+
+  colorBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const theme = btn.getAttribute('data-theme');
+      setTheme(theme);
+      if (palette) palette.classList.remove('active');
     });
   });
+}
 
-  // Close menu when tapping anywhere outside
-  document.addEventListener('click', (e) => {
-    if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-      navMenu.classList.remove('is-open');
-      navToggle.classList.remove('is-active');
-      navToggle.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
-    }
+function setTheme(theme) {
+  document.body.classList.remove('theme-orange', 'theme-red', 'theme-green', 'theme-blue', 'theme-pink');
+  document.body.classList.add(`theme-${theme}`);
+  localStorage.setItem('portfolio_theme', theme);
+
+  document.querySelectorAll('.theme-color-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
   });
 }
 
 /* -------------------------------------------------------------
- * 1. Interactive Cursor Crimson Spotlight
+ * 2. Typewriter Effect in Hero Section
+ * ------------------------------------------------------------- */
+function initTypewriter() {
+  const typewriterElement = document.getElementById('typewriter');
+  if (!typewriterElement) return;
+
+  const phrases = [
+    'Web Developer',
+    'IT Graduate',
+    'Full-Stack Enthusiast',
+    'PHP & Laravel Developer'
+  ];
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typeSpeed = 100;
+
+  function type() {
+    const currentPhrase = phrases[phraseIndex];
+
+    if (isDeleting) {
+      typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+      charIndex--;
+      typeSpeed = 50;
+    } else {
+      typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+      charIndex++;
+      typeSpeed = 100;
+    }
+
+    if (!isDeleting && charIndex === currentPhrase.length) {
+      typeSpeed = 2000; // Pause at end of phrase
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      typeSpeed = 500;
+    }
+
+    setTimeout(type, typeSpeed);
+  }
+
+  type();
+}
+
+/* -------------------------------------------------------------
+ * 3. Sidebar Navigation & Active Link Tracking
+ * ------------------------------------------------------------- */
+function initSidebarNav() {
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebar');
+  const navLinks = document.querySelectorAll('.sidebar-links a[href^="#"]');
+  const sections = document.querySelectorAll('section[id], main[id]');
+
+  if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = sidebar.classList.toggle('open');
+      sidebarToggle.classList.toggle('is-active', isOpen);
+      sidebarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        if (sidebarToggle) {
+          sidebarToggle.classList.remove('is-active');
+          sidebarToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+        sidebar.classList.remove('open');
+        sidebarToggle.classList.remove('is-active');
+        sidebarToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Active scroll tracking
+  window.addEventListener('scroll', () => {
+    let current = '';
+    const scrollPos = window.pageYOffset + 200;
+
+    sections.forEach((section) => {
+      const top = section.offsetTop;
+      const height = section.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  });
+}
+
+/* -------------------------------------------------------------
+ * 4. Interactive Cursor Spotlight
  * ------------------------------------------------------------- */
 function initCursorSpotlight() {
   const spotlight = document.getElementById('cursor-spotlight');
@@ -74,14 +184,14 @@ function initCursorSpotlight() {
     currentX += (mouseX - currentX) * 0.15;
     currentY += (mouseY - currentY) * 0.15;
 
-    spotlight.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, rgba(239, 68, 68, 0.14), transparent 70%)`;
+    spotlight.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, var(--glow), transparent 70%)`;
     requestAnimationFrame(animateSpotlight);
   }
   animateSpotlight();
 }
 
 /* -------------------------------------------------------------
- * 2. Ambient Particle Canvas Background (Crimson Particles)
+ * 5. Ambient Particle Canvas Background
  * ------------------------------------------------------------- */
 function initParticleCanvas() {
   const canvas = document.getElementById('bg-canvas');
@@ -128,9 +238,9 @@ function initParticleCanvas() {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(239, 68, 68, ${Math.max(0.05, Math.min(0.65, this.opacity))})`;
+      ctx.fillStyle = `rgba(255, 94, 0, ${Math.max(0.05, Math.min(0.6, this.opacity))})`;
       ctx.shadowBlur = 10;
-      ctx.shadowColor = 'rgba(239, 68, 68, 0.4)';
+      ctx.shadowColor = 'var(--accent)';
       ctx.fill();
       ctx.shadowBlur = 0;
     }
@@ -152,54 +262,7 @@ function initParticleCanvas() {
 }
 
 /* -------------------------------------------------------------
- * 3. Dynamic Typewriter Headline Effect
- * ------------------------------------------------------------- */
-function initTypewriterEffect() {
-  const target = document.getElementById('typewriter-text');
-  if (!target) return;
-
-  const words = [
-    'Web Developer',
-    'Full-Stack Developer',
-    'Laravel & React Developer',
-    'IT Graduate'
-  ];
-
-  let wordIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typeSpeed = 100;
-
-  function type() {
-    const currentWord = words[wordIndex];
-
-    if (isDeleting) {
-      target.textContent = currentWord.substring(0, charIndex - 1);
-      charIndex--;
-      typeSpeed = 50;
-    } else {
-      target.textContent = currentWord.substring(0, charIndex + 1);
-      charIndex++;
-      typeSpeed = 100;
-    }
-
-    if (!isDeleting && charIndex === currentWord.length) {
-      typeSpeed = 2000; // Pause at end of word
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      wordIndex = (wordIndex + 1) % words.length;
-      typeSpeed = 400; // Pause before starting next word
-    }
-
-    setTimeout(type, typeSpeed);
-  }
-
-  type();
-}
-
-/* -------------------------------------------------------------
- * 4. Scroll Reveal Observer
+ * 6. Scroll Reveal Observer
  * ------------------------------------------------------------- */
 function initScrollReveal() {
   const revealElements = document.querySelectorAll('[data-reveal]');
@@ -227,7 +290,7 @@ function initScrollReveal() {
 }
 
 /* -------------------------------------------------------------
- * 5. Interactive 3D Card Tilt Effect
+ * 7. Interactive 3D Card Tilt Effect
  * ------------------------------------------------------------- */
 function init3DTilt() {
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
@@ -259,7 +322,7 @@ function init3DTilt() {
 }
 
 /* -------------------------------------------------------------
- * 6. Resume Dropdown Interactions
+ * 8. Resume Dropdown Interactions
  * ------------------------------------------------------------- */
 function initResumeDropdown() {
   const dropdowns = document.querySelectorAll('.resume-dropdown');
@@ -304,7 +367,7 @@ function initResumeDropdown() {
 }
 
 /* -------------------------------------------------------------
- * 7. Contact Form Micro-Interactions & Toast Feedback
+ * 9. Contact Form Micro-Interactions
  * ------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -317,35 +380,5 @@ function initContactForm() {
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
     submitBtn.innerText = 'Sending message...';
-  });
-}
-
-/* -------------------------------------------------------------
- * 8. Active Navigation Indicator
- * ------------------------------------------------------------- */
-function initActiveNav() {
-  const sections = document.querySelectorAll('section[id], main[id]');
-  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-
-  if (!sections.length || !navLinks.length) return;
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    const scrollPos = window.pageYOffset + 180;
-
-    sections.forEach((section) => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      if (scrollPos >= top && scrollPos < top + height) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLinks.forEach((link) => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === `#${current}`) {
-        link.classList.add('active');
-      }
-    });
   });
 }
