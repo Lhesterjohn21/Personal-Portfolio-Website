@@ -365,7 +365,7 @@ function initResumeDropdown() {
 }
 
 /* -------------------------------------------------------------
- * 9. Contact Form Micro-Interactions
+ * 9. Contact Form Micro-Interactions & Asynchronous Submission
  * ------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -373,10 +373,113 @@ function initContactForm() {
 
   const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', (e) => {
+  // Check URL query string for fallback redirects (?mail=sent)
+  const urlParams = new URLSearchParams(window.location.search);
+  const mailStatus = urlParams.get('mail');
+  if (mailStatus === 'sent' || mailStatus === 'success') {
+    showToast('success', 'Email Sent Successfully!', 'Thank you for reaching out. I will get back to you soon!');
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+  } else if (mailStatus === 'failed' || mailStatus === 'error') {
+    showToast('error', 'Message Failed', 'Could not send email message. Please try again.');
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
     if (!submitBtn) return;
+
+    const originalBtnText = submitBtn.innerText;
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
     submitBtn.innerText = 'Sending message...';
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'application/json'
+        }
+      });
+
+      let result = {};
+      try {
+        result = await response.json();
+      } catch (err) {
+        result = { success: response.ok };
+      }
+
+      if (response.ok && (result.success !== false)) {
+        form.reset();
+        showToast('success', 'Email Sent Successfully!', 'Thank you for reaching out! I will respond to your message as soon as possible.');
+      } else {
+        const errorMsg = result.reason || result.message || 'There was an issue sending your message. Please try again.';
+        showToast('error', 'Message Failed', errorMsg);
+      }
+    } catch (error) {
+      console.error('Contact Form Submit Error:', error);
+      showToast('error', 'Submission Error', 'Unable to connect. Please check your internet connection and try again.');
+    } finally {
+      // Immediately reset button state so it NEVER stays stuck loading!
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      submitBtn.innerText = originalBtnText;
+    }
   });
+}
+
+/* -------------------------------------------------------------
+ * 10. Top-Right Floating Toast Notification System
+ * ------------------------------------------------------------- */
+function showToast(type, title, message) {
+  let container = document.querySelector('.toast-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast-notification toast-${type}`;
+
+  const isSuccess = type === 'success';
+  const iconSvg = isSuccess
+    ? `<svg class="toast-icon success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`
+    : `<svg class="toast-icon error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`;
+
+  toast.innerHTML = `
+    ${iconSvg}
+    <div class="toast-body">
+      <div class="toast-title">${title}</div>
+      <div class="toast-message">${message}</div>
+    </div>
+    <button class="toast-close" type="button" aria-label="Close alert">&times;</button>
+  `;
+
+  container.appendChild(toast);
+
+  // Trigger slide-in animation
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+
+  const closeBtn = toast.querySelector('.toast-close');
+  const dismiss = () => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 400);
+  };
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', dismiss);
+  }
+
+  // Auto-dismiss after 5 seconds
+  setTimeout(dismiss, 5000);
 }

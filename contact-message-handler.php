@@ -582,6 +582,21 @@ load_env_file(__DIR__ . '/.env');
 
 function redirect_back_with_status(string $status, string $reason = ''): never
 {
+    $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+              || (isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json'));
+
+    if ($isAjax) {
+        header('Content-Type: application/json; charset=utf-8');
+        $success = ($status === 'sent');
+        echo json_encode([
+            'success' => $success,
+            'status'  => $status,
+            'reason'  => $reason,
+            'message' => $success ? 'Your email message has been sent successfully!' : ('Email sending failed: ' . $reason)
+        ]);
+        exit;
+    }
+
     $referer = $_SERVER['HTTP_REFERER'] ?? '';
     $fallback = '/index.html';
 
