@@ -66,10 +66,8 @@ function initTypewriter() {
   if (!typewriterElement) return;
 
   const phrases = [
-    'Web Developer',
-    'IT Graduate',
-    'Full-Stack Enthusiast',
-    'PHP & Laravel Developer'
+    'Aspiring Web Developer',
+    'IT Graduate'
   ];
 
   let phraseIndex = 0;
