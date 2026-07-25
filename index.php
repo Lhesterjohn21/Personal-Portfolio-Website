@@ -128,7 +128,7 @@
     <section class="hero" id="home" data-reveal>
       <div class="hero-text-col">
         <p class="greeting-text">Hello, my name is<span class="cursive-name">John Lhester Arco</span></p>
-        <h1 class="title-text">I&#39;m a <span class="accent-span typewriter" id="typewriter">Web Developer</span></h1>
+        <h1 class="title-text">I&#39;m an <span class="accent-span typewriter" id="typewriter">Web Developer</span></h1>
         <p class="hero-description">
           Fresh Information Technology graduate &amp; aspiring web developer passionate about building modern,
           responsive, and high-performance web applications using Laravel, PHP, JavaScript, Bootstrap, and MySQL.
