@@ -1,8 +1,9 @@
 /**
- * Personal Portfolio Website - Interactive & Micro-animations
+ * Personal Portfolio Website - Interactive, Micro-animations & Mobile Responsiveness
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initMobileNav();
   initCursorSpotlight();
   initParticleCanvas();
   initScrollReveal();
@@ -11,6 +12,45 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initActiveNav();
 });
+
+/* -------------------------------------------------------------
+ * 0. Mobile Hamburger Menu Toggle & Responsiveness
+ * ------------------------------------------------------------- */
+function initMobileNav() {
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  if (!navToggle || !navMenu) return;
+
+  navToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = navMenu.classList.toggle('is-open');
+    navToggle.classList.toggle('is-active');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    document.body.classList.toggle('menu-open', isOpen);
+  });
+
+  // Automatically close menu when a nav item is tapped
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('is-open');
+      navToggle.classList.remove('is-active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+    });
+  });
+
+  // Close menu when tapping anywhere outside
+  document.addEventListener('click', (e) => {
+    if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+      navMenu.classList.remove('is-open');
+      navToggle.classList.remove('is-active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+    }
+  });
+}
 
 /* -------------------------------------------------------------
  * 1. Interactive Cursor Spotlight
@@ -142,6 +182,9 @@ function initScrollReveal() {
  * 4. Interactive 3D Card Tilt Effect
  * ------------------------------------------------------------- */
 function init3DTilt() {
+  // Disable 3D tilt effect on touch/mobile screens to optimize performance and touch gestures
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+
   const tiltCards = document.querySelectorAll('[data-tilt]');
   if (!tiltCards.length) return;
 
