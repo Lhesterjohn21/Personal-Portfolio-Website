@@ -652,6 +652,19 @@ body {
   overflow: hidden;
 }
 
+.json-code-block {
+  font-family: var(--font-code);
+  font-size: clamp(0.75rem, 2.5vw, 0.88rem);
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
 .about-card p {
   color: var(--muted);
   line-height: 1.8;

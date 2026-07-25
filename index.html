@@ -156,10 +156,10 @@
         </div>
         <div class="about-card">
           <div style="font-family: var(--font-code); color: var(--accent); margin-bottom: 12px;">// developer.json</div>
-          <pre style="font-family: var(--font-code); font-size: 0.9rem; color: var(--muted); margin: 0; line-height: 1.6;">{
+          <pre class="json-code-block">{
   "name": "John Lhester Arco",
   "role": "Web Developer",
-  "education": "BS Information Technology",
+  "education": "BS IT Graduate",
   "frontend": ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
   "backend": ["PHP", "Laravel", "CodeIgniter", "MySQL"],
   "status": "Available for Entry-Level Roles"
