@@ -29,12 +29,13 @@
   box-sizing: border-box;
 }
 
-html {
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
   scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
   font-family: var(--font-main);
   -webkit-text-size-adjust: 100%;
   background:
@@ -1680,21 +1681,23 @@ h1 {
 /* =============================================================
  * Interactive Spotlight & Particle Canvas Overlay
  * ============================================================= */
-#cursor-spotlight {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  transition: background 0.1s ease;
+#cursor-spotlight,
+#bg-canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  display: block !important;
 }
 
-#bg-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
+#cursor-spotlight {
+  transition: background 0.1s ease;
 }
 
 /* =============================================================
