@@ -595,21 +595,7 @@
       sections.forEach((section) => sectionObserver.observe(section));
     }
 
-    // Resume dropdown menu
-    function closeResumeMenu() {
-      if (resumeDropdown && resumeButton) {
-        resumeDropdown.classList.remove('open');
-        resumeButton.setAttribute('aria-expanded', 'false');
-      }
-    }
-
-    if (resumeButton) {
-      resumeButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = resumeDropdown.classList.toggle('open');
-        resumeButton.setAttribute('aria-expanded', String(isOpen));
-      });
-    }
+    // Resume dropdown menu is handled in js/main.js
 
     document.addEventListener('click', (event) => {
       if (resumeDropdown && !resumeDropdown.contains(event.target)) {
