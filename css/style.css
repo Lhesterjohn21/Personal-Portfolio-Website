@@ -1024,6 +1024,17 @@ body {
   text-decoration: underline;
 }
 
+.phone-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.phone-link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 .socials-wrapper {
   margin-top: auto;
   padding-top: 20px;
