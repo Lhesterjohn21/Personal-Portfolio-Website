@@ -1513,11 +1513,22 @@ h1 {
   }
 
   .actions {
-    gap: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
   }
 
-  .button {
-    width: 100%;
+  .actions .button {
+    flex: 1 1 0%;
+    width: 50%;
+    min-width: 0;
+    padding: 12px 10px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    text-align: center;
+    justify-content: center;
   }
 
   .code {
@@ -1641,9 +1652,9 @@ h1 {
     padding: 8px;
   }
 
-  .button {
-    padding: 10px 14px;
-    font-size: 0.82rem;
+  .actions .button {
+    padding: 10px 6px;
+    font-size: 0.78rem;
   }
 
   .skill-card,
