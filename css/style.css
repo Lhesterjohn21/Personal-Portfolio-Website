@@ -94,19 +94,21 @@ body {
 .sidebar-header {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
 }
 
-/* Logo with Corner Accent Brackets */
 .brand {
-  font-size: 1.35rem;
+  font-size: 1.8rem;
   font-weight: 800;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   color: #ffffff;
   text-decoration: none;
   display: inline-block;
-  padding: 4px 0;
-  transition: color 0.25s ease;
+  text-align: center;
+  padding: 6px 0;
+  transition: transform 0.25s ease, color 0.25s ease;
 }
 
 .brand span {
@@ -115,10 +117,12 @@ body {
 
 .brand:hover {
   color: var(--accent-2);
+  transform: scale(1.05);
 }
 
 .sidebar-nav {
-  margin-top: 20px;
+  margin-top: 12px;
+  width: 100%;
 }
 
 .sidebar-links {
