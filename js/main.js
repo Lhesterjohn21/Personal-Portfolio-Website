@@ -215,25 +215,43 @@ function init3DTilt() {
  * 5. Resume Dropdown Interactions
  * ------------------------------------------------------------- */
 function initResumeDropdown() {
-  const dropdown = document.querySelector('.resume-dropdown');
-  const toggleBtn = document.querySelector('.resume-btn');
+  const dropdowns = document.querySelectorAll('.resume-dropdown');
 
-  if (!dropdown || !toggleBtn) return;
+  dropdowns.forEach((dropdown) => {
+    const toggleBtn = dropdown.querySelector('.resume-btn');
+    if (!toggleBtn) return;
 
-  toggleBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle('open');
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const isOpen = dropdown.classList.contains('open') || dropdown.classList.contains('is-open');
+      if (isOpen) {
+        dropdown.classList.remove('open', 'is-open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        dropdown.classList.add('open', 'is-open');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      }
+    });
   });
 
   document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target)) {
-      dropdown.classList.remove('open');
-    }
+    dropdowns.forEach((dropdown) => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('open', 'is-open');
+        const toggleBtn = dropdown.querySelector('.resume-btn');
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      dropdown.classList.remove('open');
+      dropdowns.forEach((dropdown) => {
+        dropdown.classList.remove('open', 'is-open');
+        const toggleBtn = dropdown.querySelector('.resume-btn');
+        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+      });
     }
   });
 }
