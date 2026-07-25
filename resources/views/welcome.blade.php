@@ -1396,7 +1396,7 @@
               <div class="project-tags"><span class="project-tag">Laravel</span><span class="project-tag">HTML/CSS</span><span class="project-tag">Bootstrap</span><span class="project-tag">JavaScript</span></div>
               <div class="project-links">
                 <a class="project-link" href="#projects" aria-label="Open project link"><svg viewBox="0 0 24 24"><path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 14v7h-7"/><path d="M3 10v11h11"/></svg></a>
-                <a class="project-link" href="#projects" aria-label="Open GitHub link"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2-5-2m10 4v-3.5c0-1 .3-1.6.8-2.1-2.8-.3-5.7-1.4-5.7-6.2 0-1.4.5-2.6 1.4-3.5-.1-.3-.6-1.7.1-3.4 0 0 1.1-.3 3.5 1.4a12 12 0 0 1 6.3 0c2.4-1.7 3.5-1.4 3.5-1.4.7 1.7.2 3.1.1 3.4.9.9 1.4 2.1 1.4 3.5 0 4.8-2.9 5.9-5.7 6.2.5.5.8 1.2.8 2.4V21"/></svg></a>
+                <a class="project-link" href="https://github.com/Lhesterjohn21/Personal-Portfolio-Website" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2-5-2m10 4v-3.5c0-1 .3-1.6.8-2.1-2.8-.3-5.7-1.4-5.7-6.2 0-1.4.5-2.6 1.4-3.5-.1-.3-.6-1.7.1-3.4 0 0 1.1-.3 3.5 1.4a12 12 0 0 1 6.3 0c2.4-1.7 3.5-1.4 3.5-1.4.7 1.7.2 3.1.1 3.4.9.9 1.4 2.1 1.4 3.5 0 4.8-2.9 5.9-5.7 6.2.5.5.8 1.2.8 2.4V21"/></svg></a>
               </div>
             </div>
           </article>
@@ -1469,7 +1469,7 @@
               <div class="project-tags"><span class="project-tag">Cisco Packet Tracer</span><span class="project-tag">Networking</span><span class="project-tag">Topology</span></div>
               <div class="project-links">
                 <a class="project-link" href="#projects" aria-label="Open project link"><svg viewBox="0 0 24 24"><path d="M14 3h7v7"/><path d="M10 14L21 3"/><path d="M21 14v7h-7"/><path d="M3 10v11h11"/></svg></a>
-                <a class="project-link" href="#projects" aria-label="Open GitHub link"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2-5-2m10 4v-3.5c0-1 .3-1.6.8-2.1-2.8-.3-5.7-1.4-5.7-6.2 0-1.4.5-2.6 1.4-3.5-.1-.3-.6-1.7.1-3.4 0 0 1.1-.3 3.5 1.4a12 12 0 0 1 6.3 0c2.4-1.7 3.5-1.4 3.5-1.4.7 1.7.2 3.1.1 3.4.9.9 1.4 2.1 1.4 3.5 0 4.8-2.9 5.9-5.7 6.2.5.5.8 1.2.8 2.4V21"/></svg></a>
+                <a class="project-link" href="https://github.com/Lhesterjohn21/CAMPUS-NETWORK-DESIGN" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2-5-2m10 4v-3.5c0-1 .3-1.6.8-2.1-2.8-.3-5.7-1.4-5.7-6.2 0-1.4.5-2.6 1.4-3.5-.1-.3-.6-1.7.1-3.4 0 0 1.1-.3 3.5 1.4a12 12 0 0 1 6.3 0c2.4-1.7 3.5-1.4 3.5-1.4.7 1.7.2 3.1.1 3.4.9.9 1.4 2.1 1.4 3.5 0 4.8-2.9 5.9-5.7 6.2.5.5.8 1.2.8 2.4V21"/></svg></a>
               </div>
             </div>
           </article>
