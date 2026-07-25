@@ -11,6 +11,8 @@
 </head>
 
 <body>
+  <div id="cursor-spotlight"></div>
+  <canvas id="bg-canvas"></canvas>
   <div class="site">
     <header class="nav">
       <div class="container nav-inner">
@@ -56,7 +58,7 @@
       </div>
     </header>
 
-    <main class="hero" id="home">
+    <main class="hero" id="home" data-reveal>
       <section>
         <p class="eyebrow">Entry-Level Web Developer Opportunities</p>
         <h1>Hi, I&#39;m <span class="accent">JOHN LHESTER ARCO</span></h1>
@@ -140,7 +142,7 @@
       </div>
     </section>
 
-    <section class="anchor-section" id="skills">
+    <section class="anchor-section" id="skills" data-reveal>
       <hr class="section-divider" aria-hidden="true" />
       <div class="skills-heading">
         <div>
@@ -257,7 +259,7 @@
       </div>
     </section>
 
-    <section class="anchor-section" id="projects">
+    <section class="anchor-section" id="projects" data-reveal>
       <hr class="section-divider" aria-hidden="true" />
       <div class="projects-heading">
         <div>
@@ -267,7 +269,7 @@
       </div>
       <div class="section-shell">
         <div class="projects-grid">
-          <article class="project-card">
+          <article class="project-card" data-tilt data-reveal data-delay="100">
             <div class="project-visual wams"
               style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
               <img src="img/wams.png" alt="WAMS Screenshot"
@@ -294,7 +296,7 @@
             </div>
           </article>
 
-          <article class="project-card">
+          <article class="project-card" data-tilt data-reveal data-delay="200">
             <div class="project-visual portfolio"
               style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
               <img src="img/myportfolio.png" alt="Personal Portfolio Screenshot"
@@ -319,7 +321,7 @@
             </div>
           </article>
 
-          <article class="project-card">
+          <article class="project-card" data-tilt data-reveal data-delay="300">
             <div class="project-visual passaver"
               style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
               <img src="img/passaver.png" alt="PASSAVER Screenshot"
@@ -345,7 +347,7 @@
           </article>
 
 
-          <article class="project-card">
+          <article class="project-card" data-tilt data-reveal data-delay="400">
             <div class="project-visual network"
               style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
               <img src="img/networking.png" alt="Network Topology Diagram"
@@ -372,7 +374,7 @@
       </div>
     </section>
 
-    <section class="anchor-section" id="contact">
+    <section class="anchor-section" id="contact" data-reveal>
       <hr class="section-divider" aria-hidden="true" />
       <div class="contact-heading">
         <div>
@@ -746,6 +748,7 @@
       });
     }
   </script>
+  <script src="js/main.js" defer></script>
 </body>
 
 </html>
