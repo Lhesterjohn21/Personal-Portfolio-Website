@@ -208,11 +208,26 @@
             Frontend
           </h3>
           <div class="skill-tags">
-            <span class="skill-tag">HTML5</span>
-            <span class="skill-tag">CSS3</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">Bootstrap</span>
-            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.97 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718h10.059l.236-2.68H5.405l.69 7.962h9.803l-.388 4.088-3.542.958-3.543-.958-.232-2.583H5.503l.422 4.975L11.97 21.2l6.046-1.683.83-9.767H8.531z"/></svg>
+              HTML5
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.97 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718h10.059l.236-2.68H5.405l.69 7.962h9.803l-.388 4.088-3.542.958-3.543-.958-.232-2.583H5.503l.422 4.975L11.97 21.2l6.046-1.683.83-9.767H8.531z"/></svg>
+              CSS3
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm11.525 14.34c.78 0 1.248-.348 1.488-.84.216-.444.216-1.044.216-1.74V9.6h-2.124v4.956c0 .444-.024.78-.132.96-.12.18-.324.288-.636.288-.36 0-.612-.132-.744-.396-.132-.264-.132-.672-.132-1.224v-4.584H10.32v4.776c0 .948.192 1.632.576 2.052.384.42.96.63 1.728.63zm-5.76-1.896c.468 0 .84-.132 1.116-.396.276-.264.408-.636.408-1.116V9.6H8.16v4.44c0 .324-.072.564-.216.72-.144.156-.372.24-.684.24-.312 0-.54-.084-.684-.24-.144-.156-.216-.396-.216-.72V9.6H4.248v4.332c0 .912.24 1.584.72 2.016.48.432 1.14.648 1.98.648z"/></svg>
+              JavaScript
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.29 11.53c.96-.69 1.51-1.75 1.51-3.03 0-2.58-1.99-4.2-5.1-4.2H5.66v15.4h7.52c3.27 0 5.46-1.68 5.46-4.47 0-1.77-.96-2.97-2.35-3.7zM9.46 6.96h2.72c1.47 0 2.37.75 2.37 1.95 0 1.23-.9 1.98-2.37 1.98H9.46V6.96zm3.3 10.04H9.46v-4.44h3.3c1.65 0 2.64.84 2.64 2.22 0 1.38-.99 2.22-2.64 2.22z"/></svg>
+              Bootstrap
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              Responsive Design
+            </span>
           </div>
         </div>
         <div class="skill-card">
@@ -225,11 +240,26 @@
             Backend &amp; DB
           </h3>
           <div class="skill-tags">
-            <span class="skill-tag">PHP</span>
-            <span class="skill-tag">Laravel</span>
-            <span class="skill-tag">CodeIgniter</span>
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">REST APIs</span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm.447 16.741c-3.197 0-4.321-1.393-4.321-3.411 0-2.399 1.579-4.477 4.542-4.477 2.946 0 4.148 1.488 4.148 3.411 0 2.446-1.643 4.477-4.369 4.477zm.079-1.921c1.375 0 2.052-1.077 2.052-2.477 0-.918-.348-1.693-1.894-1.693-1.485 0-2.115 1.092-2.115 2.477 0 .933.379 1.693 1.957 1.693z"/></svg>
+              PHP
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              Laravel
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm0-4h-2V7h2v7z"/></svg>
+              CodeIgniter
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 1.79-9 4v10c0 2.21 4.03 4 9 4s9-1.79 9-4V7c0-2.21-4.03-4-9-4zm0 2c3.87 0 7 1.34 7 2s-3.13 2-7 2-7-1.34-7-2 3.13-2 7-2zm7 12c0 .66-3.13 2-7 2s-7-1.34-7-2v-2.12c1.78 1.15 4.3 1.87 7 1.87s5.22-.72 7-1.87V17zm0-5c0 .66-3.13 2-7 2s-7-1.34-7-2V9.88c1.78 1.15 4.3 1.87 7 1.87s5.22-.72 7-1.87V12z"/></svg>
+              MySQL
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              REST APIs
+            </span>
           </div>
         </div>
         <div class="skill-card">
@@ -242,11 +272,26 @@
             Tools &amp; Others
           </h3>
           <div class="skill-tags">
-            <span class="skill-tag">Git</span>
-            <span class="skill-tag">GitHub</span>
-            <span class="skill-tag">VS Code</span>
-            <span class="skill-tag">XAMPP</span>
-            <span class="skill-tag">Cisco Packet Tracer</span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.216 1.38-.066 1.888.44.503.504.654 1.234.444 1.877l2.66 2.66c.643-.21 1.374-.06 1.877.443.704.704.704 1.846 0 2.55-.704.705-1.846.705-2.55 0-.518-.518-.663-1.265-.436-1.91l-2.46-2.46v6.696c.216.084.417.215.58.378.705.705.705 1.846 0 2.55-.705.705-1.846.705-2.55 0-.705-.704-.705-1.845 0-2.55.23-.23.5-.38.79-.46V9.03a1.96 1.96 0 0 1-.79-.46 1.97 1.97 0 0 1-.444-1.88L6.46 3.93.452 9.94a1.545 1.545 0 0 0 0 2.187l10.48 10.478c.604.604 1.582.604 2.187 0l10.427-10.428c.604-.603.604-1.582 0-2.187z"/></svg>
+              Git
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.12a.998.998 0 0 0-1.313.093l-1.3 1.3a.998.998 0 0 0 0 1.413l3.52 3.52-3.52 3.52a.998.998 0 0 0 0 1.413l1.3 1.3a.998.998 0 0 0 1.313.093l4.12-3.12 9.46 8.63c.48.44 1.18.52 1.705.29l4.94-2.377A1.5 1.5 0 0 0 24 20.12V3.88a1.5 1.5 0 0 0-.85-1.293zm-5.15 14.773l-6.84-5.36 6.84-5.36v10.72z"/></svg>
+              VS Code
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              XAMPP
+            </span>
+            <span class="skill-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+              Cisco Packet Tracer
+            </span>
           </div>
         </div>
       </div>
