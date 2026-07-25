@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initThemeSwitcher();
   initTypewriter();
+  initCodeTypewriter();
   initSidebarNav();
   initCursorSpotlight();
   initParticleCanvas();
@@ -556,4 +557,56 @@ function showToast(type, title, message) {
 
   // Auto-dismiss after 5 seconds
   setTimeout(dismiss, 5000);
+}
+
+/* -------------------------------------------------------------
+ * 11. Code Window Syntax-Highlighted Typewriter Animation
+ * ------------------------------------------------------------- */
+function initCodeTypewriter() {
+  const codeElement = document.getElementById('typewriterCode');
+  if (!codeElement) return;
+
+  const codeLines = [
+    '<span class="token-keyword">const</span> <span class="token-variable">developer</span> <span class="token-operator">=</span> <span class="token-punctuation">{</span>',
+    '  <span class="token-key">name</span><span class="token-punctuation">:</span> <span class="token-string">\'John Lhester Arco\'</span><span class="token-punctuation">,</span>',
+    '  <span class="token-key">status</span><span class="token-punctuation">:</span> <span class="token-string">\'BS Information Technology Graduate\'</span><span class="token-punctuation">,</span>',
+    '  <span class="token-key">based_in</span><span class="token-punctuation">:</span> <span class="token-string">\'Camarines Sur, PH\'</span><span class="token-punctuation">,</span>',
+    '  <span class="token-key">role</span><span class="token-punctuation">:</span> <span class="token-string">\'Entry-Level Web Developer\'</span><span class="token-punctuation">,</span>',
+    '  <span class="token-key">stack</span><span class="token-punctuation">:</span> <span class="token-punctuation">[</span><span class="token-string">\'PHP\'</span><span class="token-punctuation">,</span> <span class="token-string">\'Laravel\'</span><span class="token-punctuation">,</span> <span class="token-string">\'JavaScript\'</span><span class="token-punctuation">,</span> <span class="token-string">\'MySQL\'</span><span class="token-punctuation">,</span> <span class="token-string">\'Bootstrap\'</span><span class="token-punctuation">]</span><span class="token-punctuation">,</span>',
+    '  <span class="token-comment">// always learning and improving</span>',
+    '  <span class="token-key">experience</span><span class="token-punctuation">:</span> <span class="token-string">\'Academic &amp; Personal Projects\'</span><span class="token-punctuation">,</span>',
+    '  <span class="token-key">available_for_work</span><span class="token-punctuation">:</span> <span class="token-boolean">true</span>',
+    '<span class="token-punctuation">}</span><span class="token-punctuation">;</span>'
+  ];
+
+  let currentLineIndex = 0;
+  let isTypingStarted = false;
+
+  function typeCode() {
+    if (currentLineIndex < codeLines.length) {
+      const lineDiv = document.createElement('div');
+      lineDiv.className = 'code-line';
+      lineDiv.innerHTML = codeLines[currentLineIndex];
+      codeElement.appendChild(lineDiv);
+      currentLineIndex++;
+      setTimeout(typeCode, 140);
+    }
+  }
+
+  // Trigger typewriter when About Me section comes into viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !isTypingStarted) {
+        isTypingStarted = true;
+        typeCode();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  const card = document.querySelector('.code-window-card');
+  if (card) {
+    observer.observe(card);
+  } else {
+    typeCode();
+  }
 }

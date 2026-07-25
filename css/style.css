@@ -712,6 +712,107 @@ body {
   color: var(--muted);
 }
 
+/* Code Window & Typewriter Styling */
+.code-window-card {
+  padding: 0 !important;
+  overflow: hidden;
+  background: #0f141d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  font-family: var(--font-code);
+  display: flex;
+  flex-direction: column;
+}
+
+.code-window-header {
+  background: #181d28;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.window-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.window-dots .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+.window-title {
+  margin-left: 14px;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  font-family: var(--font-code);
+}
+
+.code-window-body {
+  display: flex;
+  padding: 22px 20px;
+  background: #0b0e14;
+  overflow-x: auto;
+  min-height: 280px;
+}
+
+.line-numbers {
+  display: flex;
+  flex-direction: column;
+  color: #4b5563;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  padding-right: 18px;
+  user-select: none;
+  text-align: right;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  margin-right: 18px;
+  font-family: var(--font-code);
+}
+
+.code-content {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: #abb2bf;
+  white-space: pre;
+  overflow-x: auto;
+  font-family: var(--font-code);
+}
+
+/* Syntax Highlighting Colors */
+.token-keyword { color: #c678dd; font-weight: 600; } /* const */
+.token-variable { color: #61afef; } /* developer */
+.token-key { color: #89b4fa; } /* name, status, etc */
+.token-string { color: #a6e3a1; } /* 'John Lhester Arco' */
+.token-boolean { color: #fab387; font-weight: 600; } /* true */
+.token-comment { color: #6c7086; font-style: italic; } /* // comment */
+.token-operator { color: #89dceb; } /* = */
+.token-punctuation { color: #cdd6f4; } /* { } [ ] , : ; */
+
+.typewriter-cursor {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: bold;
+  margin-left: 2px;
+  animation: blinkCursor 0.8s infinite;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* Skills Grid */
 .skills-grid {
   display: grid;

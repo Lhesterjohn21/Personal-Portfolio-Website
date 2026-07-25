@@ -179,16 +179,21 @@
             </div>
           </div>
         </div>
-        <div class="about-card">
-          <div style="font-family: var(--font-code); color: var(--accent); margin-bottom: 12px;">// developer.json</div>
-          <pre class="json-code-block">{
-  "name": "John Lhester Arco",
-  "role": "Web Developer",
-  "education": "BS IT Graduate",
-  "frontend": ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
-  "backend": ["PHP", "Laravel", "CodeIgniter", "MySQL"],
-  "status": "Available for Entry-Level Roles"
-}</pre>
+        <div class="about-card code-window-card">
+          <div class="code-window-header">
+            <div class="window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <span class="window-title">about-me.js</span>
+          </div>
+          <div class="code-window-body">
+            <div class="line-numbers" aria-hidden="true">
+              <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            </div>
+            <pre class="code-content"><code id="typewriterCode"></code><span class="typewriter-cursor">|</span></pre>
+          </div>
         </div>
       </div>
     </section>
