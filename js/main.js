@@ -1,11 +1,10 @@
 /**
- * Personal Portfolio Website - Atlas-Inspired Design System & Interactions
+ * Personal Portfolio Website - Interactive & Micro-animations
+ * Sleek Dark & Crimson/Coral Red Theme
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeSwitcher();
-  initTypewriter();
-  initMobileSidebar();
+  initMobileNav();
   initCursorSpotlight();
   initParticleCanvas();
   initScrollReveal();
@@ -13,138 +12,48 @@ document.addEventListener('DOMContentLoaded', () => {
   initResumeDropdown();
   initContactForm();
   initActiveNav();
+  initTypewriter();
 });
 
 /* -------------------------------------------------------------
- * 1. Interactive Theme Color Switcher Widget
+ * 0. Mobile Hamburger Menu Toggle & Responsiveness
  * ------------------------------------------------------------- */
-function initThemeSwitcher() {
-  const toggleBtn = document.getElementById('themeToggleBtn');
-  const panel = document.getElementById('themePanel');
-  const colorBtns = document.querySelectorAll('.theme-color-btn');
+function initMobileNav() {
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  const navLinks = document.querySelectorAll('.nav-links a');
 
-  if (!toggleBtn || !panel) return;
+  if (!navToggle || !navMenu) return;
 
-  // Toggle Theme Panel
-  toggleBtn.addEventListener('click', (e) => {
+  navToggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    panel.classList.toggle('is-active');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!panel.contains(e.target) && !toggleBtn.contains(e.target)) {
-      panel.classList.remove('is-active');
-    }
-  });
-
-  // Theme Colors Mapping
-  const themes = {
-    orange: { primary: '#ff6b00', glow: 'rgba(255, 107, 0, 0.35)', soft: 'rgba(255, 107, 0, 0.15)' },
-    red: { primary: '#ff3b30', glow: 'rgba(255, 59, 48, 0.35)', soft: 'rgba(255, 59, 48, 0.15)' },
-    green: { primary: '#22c55e', glow: 'rgba(34, 197, 94, 0.35)', soft: 'rgba(34, 197, 94, 0.15)' },
-    blue: { primary: '#2563eb', glow: 'rgba(37, 99, 235, 0.35)', soft: 'rgba(37, 99, 235, 0.15)' },
-    pink: { primary: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', soft: 'rgba(236, 72, 153, 0.15)' },
-  };
-
-  function applyTheme(colorKey) {
-    const theme = themes[colorKey] || themes.orange;
-    document.documentElement.style.setProperty('--primary', theme.primary);
-    document.documentElement.style.setProperty('--primary-glow', theme.glow);
-    document.documentElement.style.setProperty('--primary-soft', theme.soft);
-
-    colorBtns.forEach((btn) => {
-      btn.classList.toggle('active', btn.getAttribute('data-color') === colorKey);
-    });
-
-    localStorage.setItem('portfolio_theme_color', colorKey);
-  }
-
-  colorBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const color = btn.getAttribute('data-color');
-      applyTheme(color);
-    });
-  });
-
-  // Load saved theme or default to orange
-  const savedColor = localStorage.getItem('portfolio_theme_color') || 'orange';
-  applyTheme(savedColor);
-}
-
-/* -------------------------------------------------------------
- * 2. Typewriter Effect
- * ------------------------------------------------------------- */
-function initTypewriter() {
-  const typewriterEl = document.getElementById('typewriterText');
-  if (!typewriterEl) return;
-
-  const words = ['Web Developer', 'IT Graduate', 'Full-Stack Developer', 'Tech Enthusiast'];
-  let wordIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typeSpeed = 100;
-
-  function type() {
-    const currentWord = words[wordIndex];
-
-    if (isDeleting) {
-      typewriterEl.textContent = currentWord.substring(0, charIndex - 1);
-      charIndex--;
-      typeSpeed = 50;
-    } else {
-      typewriterEl.textContent = currentWord.substring(0, charIndex + 1);
-      charIndex++;
-      typeSpeed = 120;
-    }
-
-    if (!isDeleting && charIndex === currentWord.length) {
-      isDeleting = true;
-      typeSpeed = 2000; // Pause at end of word
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      wordIndex = (wordIndex + 1) % words.length;
-      typeSpeed = 500;
-    }
-
-    setTimeout(type, typeSpeed);
-  }
-
-  type();
-}
-
-/* -------------------------------------------------------------
- * 3. Mobile Sidebar Navigation Drawer
- * ------------------------------------------------------------- */
-function initMobileSidebar() {
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const sidebar = document.getElementById('sidebar');
-  const navLinks = document.querySelectorAll('.sidebar-nav a');
-
-  if (!sidebarToggle || !sidebar) return;
-
-  sidebarToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    sidebar.classList.toggle('is-open');
-    sidebarToggle.classList.toggle('is-active');
+    const isOpen = navMenu.classList.toggle('is-open');
+    navToggle.classList.toggle('is-active');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    document.body.classList.toggle('menu-open', isOpen);
   });
 
   navLinks.forEach((link) => {
     link.addEventListener('click', () => {
-      sidebar.classList.remove('is-open');
-      if (sidebarToggle) sidebarToggle.classList.remove('is-active');
+      navMenu.classList.remove('is-open');
+      navToggle.classList.remove('is-active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     });
   });
 
   document.addEventListener('click', (e) => {
-    if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-      sidebar.classList.remove('is-open');
-      if (sidebarToggle) sidebarToggle.classList.remove('is-active');
+    if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+      navMenu.classList.remove('is-open');
+      navToggle.classList.remove('is-active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
     }
   });
 }
 
 /* -------------------------------------------------------------
- * 4. Interactive Cursor Spotlight
+ * 1. Interactive Cursor Spotlight (Crimson Coral Glow)
  * ------------------------------------------------------------- */
 function initCursorSpotlight() {
   const spotlight = document.getElementById('cursor-spotlight');
@@ -164,15 +73,14 @@ function initCursorSpotlight() {
     currentX += (mouseX - currentX) * 0.15;
     currentY += (mouseY - currentY) * 0.15;
 
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#ff6b00';
-    spotlight.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, ${primaryColor}18, transparent 70%)`;
+    spotlight.style.background = `radial-gradient(600px circle at ${currentX}px ${currentY}px, rgba(255, 77, 77, 0.12), transparent 70%)`;
     requestAnimationFrame(animateSpotlight);
   }
   animateSpotlight();
 }
 
 /* -------------------------------------------------------------
- * 5. Ambient Particle Canvas Background
+ * 2. Ambient Particle Canvas Background (Crimson Dots)
  * ------------------------------------------------------------- */
 function initParticleCanvas() {
   const canvas = document.getElementById('bg-canvas');
@@ -219,8 +127,11 @@ function initParticleCanvas() {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0.05, Math.min(0.5, this.opacity))})`;
+      ctx.fillStyle = `rgba(255, 77, 77, ${Math.max(0.05, Math.min(0.6, this.opacity))})`;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = 'rgba(255, 77, 77, 0.4)';
       ctx.fill();
+      ctx.shadowBlur = 0;
     }
   }
 
@@ -240,7 +151,7 @@ function initParticleCanvas() {
 }
 
 /* -------------------------------------------------------------
- * 6. Scroll Reveal Observer
+ * 3. Scroll Reveal Observer
  * ------------------------------------------------------------- */
 function initScrollReveal() {
   const revealElements = document.querySelectorAll('[data-reveal]');
@@ -268,7 +179,7 @@ function initScrollReveal() {
 }
 
 /* -------------------------------------------------------------
- * 7. Interactive 3D Card Tilt Effect
+ * 4. Interactive 3D Card Tilt Effect
  * ------------------------------------------------------------- */
 function init3DTilt() {
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
@@ -300,7 +211,7 @@ function init3DTilt() {
 }
 
 /* -------------------------------------------------------------
- * 8. Resume Dropdown Interactions
+ * 5. Resume Dropdown Interactions
  * ------------------------------------------------------------- */
 function initResumeDropdown() {
   const dropdowns = document.querySelectorAll('.resume-dropdown');
@@ -345,7 +256,7 @@ function initResumeDropdown() {
 }
 
 /* -------------------------------------------------------------
- * 9. Contact Form Micro-Interactions
+ * 6. Contact Form Micro-Interactions & Toast Feedback
  * ------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -353,7 +264,7 @@ function initContactForm() {
 
   const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', () => {
     if (!submitBtn) return;
     submitBtn.classList.add('loading');
     submitBtn.disabled = true;
@@ -362,17 +273,17 @@ function initContactForm() {
 }
 
 /* -------------------------------------------------------------
- * 10. Active Navigation Indicator
+ * 7. Active Navigation Indicator
  * ------------------------------------------------------------- */
 function initActiveNav() {
   const sections = document.querySelectorAll('section[id], main[id]');
-  const navLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
   if (!sections.length || !navLinks.length) return;
 
   window.addEventListener('scroll', () => {
     let current = '';
-    const scrollPos = window.pageYOffset + 200;
+    const scrollPos = window.pageYOffset + 180;
 
     sections.forEach((section) => {
       const top = section.offsetTop;
@@ -389,4 +300,49 @@ function initActiveNav() {
       }
     });
   });
+}
+
+/* -------------------------------------------------------------
+ * 8. Dynamic Typewriter Effect
+ * ------------------------------------------------------------- */
+function initTypewriter() {
+  const el = document.getElementById('typewriterText');
+  if (!el) return;
+
+  const phrases = [
+    'IT Graduate',
+    'Aspiring Web Developer'
+  ];
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typingSpeed = 100;
+
+  function type() {
+    const currentPhrase = phrases[phraseIndex];
+
+    if (isDeleting) {
+      el.textContent = currentPhrase.substring(0, charIndex - 1);
+      charIndex--;
+      typingSpeed = 50;
+    } else {
+      el.textContent = currentPhrase.substring(0, charIndex + 1);
+      charIndex++;
+      typingSpeed = 110;
+    }
+
+    if (!isDeleting && charIndex === currentPhrase.length) {
+      typingSpeed = 1800; // Pause at full phrase
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      typingSpeed = 400; // Pause before typing next phrase
+    }
+
+    setTimeout(type, typingSpeed);
+  }
+
+  type();
 }

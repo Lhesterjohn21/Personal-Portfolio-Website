@@ -11,327 +11,718 @@
 </head>
 
 <body>
+  <div class="site">
+    <header class="nav">
+      <div class="container nav-inner">
+        <a class="brand" href="#home">&lt;<span>/</span>Lhester&gt;</a>
+        
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
 
-  <!-- Floating Theme Switcher Widget -->
-  <div class="theme-switcher-widget">
-    <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle Theme Color Switcher">
-      <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </button>
-    <div class="theme-panel" id="themePanel">
-      <div class="theme-panel-title">Theme Colors</div>
-      <div class="theme-colors-list">
-        <button class="theme-color-btn active" data-color="orange" aria-label="Orange Theme"></button>
-        <button class="theme-color-btn" data-color="red" aria-label="Red Theme"></button>
-        <button class="theme-color-btn" data-color="green" aria-label="Green Theme"></button>
-        <button class="theme-color-btn" data-color="blue" aria-label="Blue Theme"></button>
-        <button class="theme-color-btn" data-color="pink" aria-label="Pink Theme"></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mobile Sidebar Toggle Button -->
-  <button class="sidebar-toggle-btn" id="sidebarToggle" type="button" aria-label="Toggle navigation drawer">
-    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-  </button>
-
-  <div class="app-layout">
-
-    <!-- Left Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="brand-wrapper">
-        <div class="corner-bracket top-left"></div>
-        <div class="corner-bracket bottom-right"></div>
-        <a class="brand-logo" href="#home">&lt;<span>/</span>Lhester&gt;</a>
-      </div>
-
-      <nav class="sidebar-nav" aria-label="Primary Navigation">
-        <a class="active" href="#home">
-          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          <span>Home</span>
-        </a>
-        <a href="#about">
-          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          <span>About</span>
-        </a>
-        <a href="#skills">
-          <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
-          <span>Skills</span>
-        </a>
-        <a href="#projects">
-          <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
-          <span>Portfolio</span>
-        </a>
-        <a href="#contact">
-          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-          <span>Contact</span>
-        </a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="resume-dropdown" id="resumeDropdown">
-          <button class="resume-btn" id="resumeButton" type="button" aria-haspopup="menu" aria-expanded="false">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v11"/><path d="M8 11l4 4 4-4"/><path d="M5 19h14"/></svg>
-            <span>Resume</span>
-          </button>
-          <div class="resume-menu" role="menu">
-            <a class="resume-option" href="img/ArcoResume.pdf" download="JOHN-LHESTER-ARCO-Resume.pdf">
-              <span class="resume-icon pdf">PDF</span>
-              <span>PDF Resume</span>
-            </a>
-            <a class="resume-option" href="img/reumearco.png" download="JOHN-LHESTER-ARCO-Resume.png">
-              <span class="resume-icon image">IMG</span>
-              <span>Image Resume</span>
-            </a>
+        <div class="nav-menu" id="navMenu">
+          <nav class="nav-links" aria-label="Primary">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </nav>
+          <div class="resume-dropdown" id="resumeDropdown">
+            <button class="resume-btn" id="resumeButton" type="button" aria-haspopup="menu" aria-expanded="false">
+              <span class="resume-btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                  <path d="M12 3v11"></path>
+                  <path d="M8 11l4 4 4-4"></path>
+                  <path d="M5 19h14"></path>
+                </svg>
+              </span>
+              <span>Resume</span>
+            </button>
+            <div class="resume-menu" role="menu" aria-label="Resume download options">
+              <a class="resume-option" role="menuitem" href="img/ArcoResume.pdf" download="JOHN-LHESTER-ARCO-Resume.pdf">
+                <span class="resume-icon pdf">PDF</span>
+                <span class="resume-label">PDF</span>
+              </a>
+              <a class="resume-option" role="menuitem" href="img/reumearco.png" download="JOHN-LHESTER-ARCO-Resume.png">
+                <span class="resume-icon image">IMG</span>
+                <span class="resume-label">Image</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </aside>
+    </header>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
+    <main class="hero" id="home" data-reveal>
+      <div class="hero-portrait-container">
+        <div class="hero-moon-backdrop"></div>
+        <div class="hero-portrait-frame">
+          <img src="img/me.jpg" alt="John Lhester Arco Portrait" />
+        </div>
+      </div>
 
-      <!-- Hero Section -->
-      <section class="hero-atlas" id="home" data-reveal>
-        <div class="hero-text-side">
-          <h1 class="hero-greeting">Hello, my name is <span class="accent-name">John Lhester Arco</span></h1>
-          <div class="hero-typewriter">
-            I'm a <span id="typewriterText" class="accent-text">Web Developer</span><span class="cursor">|</span>
-          </div>
-          <p class="hero-bio">
-            Fresh Information Technology Graduate &amp; Aspiring Web Developer. Motivated by a passion for creating seamless digital experiences, I build modern, responsive web applications using technologies like React, React Native, Laravel, CodeIgniter, and WordPress.
-          </p>
-          <a class="hero-cta" href="#about">More About Me</a>
+      <section class="hero-content">
+        <p class="eyebrow">// Entry-Level Web Developer Profile</p>
+        <h1>Hello, my name is <span class="accent">John Lhester Arco</span></h1>
+        <h2 class="typewriter-headline">I'm a <span id="typewriterText" class="typewriter-text"></span><span class="typewriter-cursor">|</span></h2>
+        <p class="description">
+          Motivated Information Technology graduate and aspiring Web Developer passionate about building modern, responsive, and seamless digital experiences using PHP, Laravel, JavaScript, and MySQL.
+        </p>
+
+        <div class="social-pills">
+          <a class="social-pill" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </a>
+          <a class="social-pill" href="https://github.com/Lhesterjohn21" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+          </a>
+          <a class="social-pill" href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a class="social-pill" href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
         </div>
 
-        <div class="profile-frame-wrapper">
-          <div class="corner-bracket top-left"></div>
-          <div class="corner-bracket bottom-right"></div>
-          <div class="profile-frame">
-            <img src="img/me.jpg" alt="John Lhester Arco" />
-          </div>
+        <div class="actions">
+          <a class="btn-hire" href="#contact">Hire me</a>
         </div>
       </section>
+    </main>
 
-      <hr class="section-divider" />
-
-      <!-- About Section -->
-      <section class="section-atlas" id="about" data-reveal>
-        <p class="section-label">// About Me</p>
-        <h2 class="section-title">Background &amp; Profile</h2>
-        <div class="skill-card">
-          <p style="color: var(--text-muted); line-height: 1.8; font-size: 1rem;">
-            As a motivated fresh graduate, I am seeking an entry-level web development role where I can apply my full-stack foundation, adapt to industry workflows, and deliver practical solutions to meaningful projects.
-          </p>
+    <section class="page-section" id="about">
+      <hr class="section-divider" aria-hidden="true" />
+      <p class="section-label">// About</p>
+      <h2 class="section-title">A bit about me</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <img src="img/me.jpg" alt="John Lhester Arco graduation photo" />
         </div>
-      </section>
+        <div>
+          <div class="about-copy">
+            <p>
+              I recently graduated with a Bachelor of Science in Information Technology and am seeking my
+              first opportunity as an Entry-Level Web Developer. I have experience building web applications
+              using Laravel, CodeIgniter, WordPress, and MySQL through academic projects, and I have basic
+              knowledge of React and React Native.
+            </p>
+            <p>
+              I am eager to learn, improve my technical skills, and gain hands-on experience in web development.
+              I enjoy building practical applications, solving problems, and working with others to create reliable and
+              user-friendly solutions.
+            </p>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong>Fresh</strong>
+              <span>out of college</span>
+            </div>
+            <div class="stat">
+              <strong>1</strong>
+              <span>internships done</span>
+            </div>
+            <div class="stat">
+              <strong>5+</strong>
+              <span>personal projects</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <hr class="section-divider" />
-
-      <!-- Skills Section -->
-      <section class="section-atlas" id="skills" data-reveal>
-        <p class="section-label">// Skills</p>
-        <h2 class="section-title">Technical Expertise</h2>
+    <section class="anchor-section" id="skills" data-reveal>
+      <hr class="section-divider" aria-hidden="true" />
+      <div class="skills-heading">
+        <div>
+          <p class="section-label">// Skills</p>
+          <h2 class="section-title">My skill set</h2>
+        </div>
+      </div>
+      <div class="section-shell">
         <div class="skills-grid">
-          <div class="skill-card">
-            <div class="skill-card-title">Frontend</div>
-            <div class="skill-tags">
-              <span class="skill-tag">HTML5</span>
-              <span class="skill-tag">CSS3</span>
-              <span class="skill-tag">JavaScript</span>
-              <span class="skill-tag">React</span>
-              <span class="skill-tag">Bootstrap</span>
-              <span class="skill-tag">TailwindCSS</span>
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M8 9l-4 3 4 3" />
+                <path d="M16 9l4 3-4 3" />
+                <path d="M10 19l4-14" />
+              </svg>
             </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-card-title">Backend</div>
-            <div class="skill-tags">
-              <span class="skill-tag">PHP</span>
-              <span class="skill-tag">Laravel</span>
-              <span class="skill-tag">CodeIgniter</span>
-              <span class="skill-tag">Node.js</span>
-              <span class="skill-tag">MySQL</span>
+            <h3>Programming Languages</h3>
+            <p>I&#39;ve learned PHP and JavaScript through my coursework and personal projects, and I continue to
+              improve by building web applications.</p>
+            <div class="skill-tags"><span class="skill-tag">PHP</span><span class="skill-tag">JavaScript</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 6h16v12H4z" />
+                <path d="M4 10h16" />
+                <path d="M8 14h3" />
+              </svg>
             </div>
-          </div>
-          <div class="skill-card">
-            <div class="skill-card-title">Tools &amp; Others</div>
-            <div class="skill-tags">
-              <span class="skill-tag">Git</span>
-              <span class="skill-tag">GitHub</span>
-              <span class="skill-tag">VS Code</span>
-              <span class="skill-tag">WordPress</span>
-              <span class="skill-tag">XAMPP</span>
+            <h3>Frontend</h3>
+            <p>I create responsive web pages using HTML, CSS, and Bootstrap, and I&#39;m currently learning more about
+              React.</p>
+            <div class="skill-tags"><span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span
+                class="skill-tag">Bootstrap</span><span class="skill-tag">React (Basic)</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 18h16" />
+                <path d="M6 6h12v8H6z" />
+                <path d="M10 18v-4" />
+              </svg>
             </div>
-          </div>
+            <h3>Backend</h3>
+            <p>I&#39;ve worked on backend features using Laravel and CodeIgniter as part of my academic and personal
+              projects.</p>
+            <div class="skill-tags"><span class="skill-tag">Laravel</span><span class="skill-tag">CodeIgniter</span>
+            </div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <ellipse cx="12" cy="6" rx="7" ry="3" />
+                <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6" />
+                <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />
+              </svg>
+            </div>
+            <h3>Database</h3>
+            <p>I have basic experience working with MySQL for storing and managing application data.</p>
+            <div class="skill-tags"><span class="skill-tag">MySQL</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <rect x="7" y="4" width="10" height="16" rx="2" />
+                <path d="M10 18h4" />
+              </svg>
+            </div>
+            <h3>CMS &amp; Mobile</h3>
+            <p>I&#39;ve built simple websites with WordPress and have started learning React Native to understand mobile
+              application development.</p>
+            <div class="skill-tags"><span class="skill-tag">WordPress</span><span class="skill-tag">React Native
+                (Basic)</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3v18" />
+                <path d="M7 8h10" />
+                <path d="M7 16h10" />
+                <path d="M4 12h16" />
+              </svg>
+            </div>
+            <h3>Tools &amp; Workflow</h3>
+            <p>I&#39;m familiar with using Git, GitHub, Visual Studio Code, NetBeans, and XAMPP while working on my
+              projects.</p>
+            <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span
+                class="skill-tag">VS Code</span><span class="skill-tag">NetBeans</span><span
+                class="skill-tag">XAMPP</span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 12h4" />
+                <path d="M16 12h4" />
+                <path d="M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0z" />
+                <path d="M9 20h6" />
+              </svg>
+            </div>
+            <h3>Networking</h3>
+            <p>I studied computer networking fundamentals in college and practiced designing and configuring networks
+              using Cisco Packet Tracer.</p>
+            <div class="skill-tags"><span class="skill-tag">Cisco Packet Tracer</span><span class="skill-tag">Basic
+                Routing</span><span class="skill-tag">Switching</span></div>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <hr class="section-divider" />
-
-      <!-- Portfolio Projects Section -->
-      <section class="section-atlas" id="projects" data-reveal>
-        <p class="section-label">// Portfolio</p>
-        <h2 class="section-title">Featured Projects</h2>
+    <section class="anchor-section" id="projects" data-reveal>
+      <hr class="section-divider" aria-hidden="true" />
+      <div class="projects-heading">
+        <div>
+          <p class="section-label">// Projects</p>
+          <h2 class="section-title">Things I&#39;ve built</h2>
+        </div>
+      </div>
+      <div class="section-shell">
         <div class="projects-grid">
-          
           <article class="project-card" data-tilt data-reveal data-delay="100">
-            <div class="project-visual">
-              <img src="img/wams.png" alt="WAMS Screenshot" />
+            <div class="project-visual wams"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/wams.png" alt="WAMS Screenshot"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
             </div>
             <div class="project-content">
-              <h3 class="project-title">WAMS &mdash; Apartment Management System</h3>
-              <p class="project-description">A comprehensive web-based apartment management system designed to simplify tenant management, lease tracking, billing, and facility administration.</p>
-              <div class="project-tags">
-                <span class="project-tag">Laravel</span>
-                <span class="project-tag">PHP</span>
-                <span class="project-tag">MySQL</span>
-                <span class="project-tag">Bootstrap</span>
-              </div>
+              <h3 class="project-title">WAMS &mdash; Web-Based Apartment Management System for Efficient Tenant and
+                Facility Administration</h3>
+              <p class="project-description">A comprehensive web-based apartment management system designed to simplify
+                tenant management, lease tracking, billing, maintenance requests, and facility administration for
+                property owners and managers.</p>
+              <div class="project-tags"><span class="project-tag">Laravel</span><span
+                  class="project-tag">PHP</span><span class="project-tag">MySQL</span><span
+                  class="project-tag">Bootstrap</span><span class="project-tag">JavaScript</span></div>
               <div class="project-links">
-                <a class="project-link" href="https://github.com/Lhesterjohn21/WAMS-WEB-BASED-APARTMENT-MANAGEMENT-SYSTEM-FOR-EFFICIENT-TENANT-AND-FACILITY-ADMINISTRATION" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repo">
-                  <svg viewBox="0 0 98 96"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/></svg>
-                </a>
+                <a class="project-link github-icon"
+                  href="https://github.com/Lhesterjohn21/WAMS-WEB-BASED-APARTMENT-MANAGEMENT-SYSTEM-FOR-EFFICIENT-TENANT-AND-FACILITY-ADMINISTRATION"
+                  target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg viewBox="0 0 98 96"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
               </div>
             </div>
           </article>
 
           <article class="project-card" data-tilt data-reveal data-delay="200">
-            <div class="project-visual">
-              <img src="img/myportfolio.png" alt="Personal Portfolio Screenshot" />
+            <div class="project-visual portfolio"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/myportfolio.png" alt="Personal Portfolio Screenshot"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
             </div>
             <div class="project-content">
               <h3 class="project-title">Personal Portfolio Website</h3>
-              <p class="project-description">A personal portfolio website created to showcase my projects, technical skills, and contact information while documenting my journey.</p>
-              <div class="project-tags">
-                <span class="project-tag">HTML/CSS</span>
-                <span class="project-tag">JavaScript</span>
-                <span class="project-tag">PHP</span>
-              </div>
+              <p class="project-description">A personal portfolio website created to showcase my projects, technical
+                skills, and contact information while documenting my journey as an aspiring web developer.</p>
+              <div class="project-tags"><span class="project-tag">Laravel</span><span
+                  class="project-tag">HTML/CSS</span><span class="project-tag">Bootstrap</span><span
+                  class="project-tag">JavaScript</span></div>
               <div class="project-links">
-                <a class="project-link" href="https://github.com/Lhesterjohn21/Personal-Portfolio-Website" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repo">
-                  <svg viewBox="0 0 98 96"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/></svg>
-                </a>
+                <a class="project-link github-icon"
+                  href="https://github.com/Lhesterjohn21/Personal-Portfolio-Website"
+                  target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg
+                    viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
               </div>
             </div>
           </article>
 
           <article class="project-card" data-tilt data-reveal data-delay="300">
-            <div class="project-visual">
-              <img src="img/passaver.png" alt="PASSAVER Screenshot" />
+            <div class="project-visual passaver"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/passaver.png" alt="PASSAVER Screenshot"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
             </div>
             <div class="project-content">
               <h3 class="project-title">PASSAVER</h3>
-              <p class="project-description">PASSAVER is a browser extension that simplifies credential management by securely storing, generating, and autofilling usernames and passwords.</p>
-              <div class="project-tags">
-                <span class="project-tag">Extension</span>
-                <span class="project-tag">JavaScript</span>
-                <span class="project-tag">Security</span>
-              </div>
+              <p class="project-description">PASSAVER is a browser extension that simplifies credential management by
+                securely storing, generating, and autofilling your usernames and passwords.</p>
+              <div class="project-tags"><span class="project-tag">Browser Extension</span><span
+                  class="project-tag">JavaScript</span><span class="project-tag">HTML/CSS</span><span
+                  class="project-tag">Security</span></div>
               <div class="project-links">
-                <a class="project-link" href="https://github.com/Lhesterjohn21/PASSAVER" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repo">
-                  <svg viewBox="0 0 98 96"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/></svg>
-                </a>
+                <a class="project-link github-icon"
+                  href="https://github.com/Lhesterjohn21/PASSAVER"
+                  target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg
+                    viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
               </div>
             </div>
           </article>
 
+
           <article class="project-card" data-tilt data-reveal data-delay="400">
-            <div class="project-visual">
-              <img src="img/networking.png" alt="Network Topology Diagram" />
+            <div class="project-visual network"
+              style="padding:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0f172a;">
+              <img src="img/networking.png" alt="Network Topology Diagram"
+                style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;" />
             </div>
             <div class="project-content">
               <h3 class="project-title">Network Topology Diagram</h3>
-              <p class="project-description">A networking exercise covering diagramming, basic routing, switching, and network design using Cisco Packet Tracer.</p>
-              <div class="project-tags">
-                <span class="project-tag">Packet Tracer</span>
-                <span class="project-tag">Networking</span>
-              </div>
+              <p class="project-description">A networking exercise covering diagramming, basic routing, switching, and
+                network design using Cisco Packet Tracer.</p>
+              <div class="project-tags"><span class="project-tag">Cisco Packet Tracer</span><span
+                  class="project-tag">Networking</span><span class="project-tag">Topology</span></div>
               <div class="project-links">
-                <a class="project-link" href="https://github.com/Lhesterjohn21/CAMPUS-NETWORK-DESIGN" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repo">
-                  <svg viewBox="0 0 98 96"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/></svg>
-                </a>
+                <a class="project-link github-icon"
+                  href="https://github.com/Lhesterjohn21/CAMPUS-NETWORK-DESIGN"
+                  target="_blank" rel="noopener noreferrer" aria-label="Open GitHub link"><svg
+                    viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg></a>
               </div>
             </div>
           </article>
-
         </div>
-      </section>
+      </div>
+    </section>
 
-      <hr class="section-divider" />
-
-      <!-- Contact Section -->
-      <section class="section-atlas" id="contact" data-reveal>
-        <p class="section-label">// Contact</p>
-        <h2 class="section-title">Get In Touch</h2>
-
+    <section class="anchor-section" id="contact" data-reveal>
+      <hr class="section-divider" aria-hidden="true" />
+      <div class="contact-heading">
+        <div>
+          <p class="section-label">// Contact</p>
+          <h2 class="section-title">Give me a shot?</h2>
+        </div>
+      </div>
+      <div class="section-shell">
         <div class="contact-layout">
-          <div class="contact-card">
-            <form class="contact-form" id="contactForm" action="contact-message-handler.php" method="POST">
-              <input type="hidden" name="access_key" value="ee4d1efd-f554-44ed-ab78-15cf9ea9ca41" />
-              <input type="hidden" name="from_name" value="Portfolio Contact Form" />
-              <input type="checkbox" name="botcheck" style="display: none;" />
+          <form class="contact-form" action="send-message.php" method="post">
+            <div class="contact-row">
+              <div class="field">
+                <label for="contactName">Name</label>
+                <input id="contactName" name="name" type="text" placeholder="Your name" required />
+              </div>
+              <div class="field">
+                <label for="contactEmail">Email</label>
+                <input id="contactEmail" name="email" type="email" placeholder="Your email address" required />
+              </div>
+            </div>
+            <div class="field full">
+              <label for="contactSubject">Subject</label>
+              <input id="contactSubject" name="subject" type="text" placeholder="Project inquiry" required />
+            </div>
+            <div class="field full">
+              <label for="contactMessage">Message</label>
+              <textarea id="contactMessage" name="message" placeholder="Tell me about your project..."
+                required></textarea>
+            </div>
+            <div class="form-status" id="formStatus" aria-live="polite"></div>
+            <button class="send-btn" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 3L10 14" />
+                <path d="M21 3l-7 19-4-8-8-4 19-7z" />
+              </svg>
+              Send Message
+            </button>
+          </form>
 
-              <div class="field">
-                <label for="contactName">Your Name</label>
-                <input id="contactName" name="name" type="text" placeholder="John Doe" required />
+          <aside class="contact-side">
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 6h16v12H4z" />
+                  <path d="M4 10l8 5 8-5" />
+                </svg>
               </div>
-              <div class="field">
-                <label for="contactEmail">Your Email</label>
-                <input id="contactEmail" name="email" type="email" placeholder="john@example.com" required />
+              <div>
+                <div class="contact-side-label">Email</div>
+                <div class="contact-side-value"><a class="email-link" href="mailto:johnlhesterarco21@gmail.com">johnlhesterarco21@gmail.com</a></div>
               </div>
-              <div class="field">
-                <label for="contactSubject">Subject</label>
-                <input id="contactSubject" name="subject" type="text" placeholder="Project Inquiry" required />
+            </div>
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z" />
+                  <circle cx="12" cy="10" r="2.5" />
+                </svg>
               </div>
-              <div class="field">
-                <label for="contactMessage">Message</label>
-                <textarea id="contactMessage" name="message" rows="5" placeholder="Write your message..." required></textarea>
+              <div>
+                <div class="contact-side-label">Location</div>
+                <div class="contact-side-value">Pilli, Camarines Sur</div>
               </div>
-              <button class="contact-btn" type="submit">Send Message</button>
-            </form>
-          </div>
-
-          <div class="contact-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-              <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: #ffffff;">Contact Information</h3>
-              <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 24px;">
-                I am currently looking for entry-level web development opportunities. Feel free to send a message or connect through social channels!
-              </p>
-              <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px;">
-                <div><strong style="color: #ffffff;">Email:</strong> <a href="mailto:johnlhesterarco21@gmail.com" style="color: var(--primary); text-decoration: none;">johnlhesterarco21@gmail.com</a></div>
-                <div><strong style="color: #ffffff;">Location:</strong> Pilli, Camarines Sur</div>
-                <div><strong style="color: #ffffff;">Phone:</strong> 09917972507</div>
+            </div>
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 16.92V21a1 1 0 0 1-1.09 1A19.8 19.8 0 0 1 3 5.09 1 1 0 0 1 4 4h4.09a1 1 0 0 1 1 .75 12.4 12.4 0 0 0 .7 2.11 1 1 0 0 1-.23 1L8.21 9.79a16 16 0 0 0 6 6l1.93-1.35a1 1 0 0 1 1-.12 12.4 12.4 0 0 0 2.11.7 1 1 0 0 1 .75 1z" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-side-label">Phone</div>
+                <div class="contact-side-value">09917972507</div>
+              </div>
+            </div>
+            <div class="contact-side-item">
+              <div class="skill-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 2" />
+                </svg>
+              </div>
+              <div>
+                <div class="contact-side-label">Availability</div>
+                <div class="contact-side-value">Open for entry-level web developer opportunities.</div>
               </div>
             </div>
 
-            <div>
-              <div style="font-size: 0.88rem; font-weight: 700; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Connect With Me</div>
-              <div style="display: flex; gap: 10px;">
-                <a class="project-link" href="https://github.com/Lhesterjohn21" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <svg viewBox="0 0 98 96"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/></svg>
+            <div class="find-me-section">
+              <div class="find-me-title">Find me on</div>
+              <div class="contact-socials">
+                <a class="social-icon-link" href="mailto:johnlhesterarco21@gmail.com" aria-label="Email">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
                 </a>
-                <a class="project-link" href="https://www.facebook.com/lhesterjohn.21" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                  <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                <a class="social-icon-link" href="https://github.com/Lhesterjohn21" target="_blank"
+                  rel="noopener noreferrer" aria-label="GitHub">
+                  <svg viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+                  </svg>
                 </a>
-                <a class="project-link" href="https://www.instagram.com/lhester.exe/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                  <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+                <a class="social-icon-link" href="https://www.facebook.com/lhesterjohn.21" target="_blank"
+                  rel="noopener noreferrer" aria-label="Facebook">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
                 </a>
-                <a class="project-link" href="https://www.tiktok.com/@_lhesterjohn" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                  <svg viewBox="0 0 24 24"><path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743 2.895 2.895 0 0 1 3.309-4.492V9.412a6.34 6.34 0 0 0-1.636-.213 6.34 6.34 0 1 0 6.34 6.34V9.054a8.216 8.216 0 0 0 4.73 1.488V7.097a4.83 4.83 0 0 1-.327-.411z"/></svg>
+                <a class="social-icon-link" href="https://www.instagram.com/lhester.exe/" target="_blank"
+                  rel="noopener noreferrer" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>
+                </a>
+                <a class="social-icon-link" href="https://www.tiktok.com/@_lhesterjohn" target="_blank"
+                  rel="noopener noreferrer" aria-label="TikTok">
+                  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z" />
+                  </svg>
                 </a>
               </div>
             </div>
-          </div>
+          </aside>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer style="margin-top: 80px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); color: var(--text-muted); font-size: 0.88rem; text-align: center;">
-        &copy; 2026 John Lhester Arco. All rights reserved.
-      </footer>
-
-    </main>
+    <footer class="site-footer" id="footer">
+      <div class="container footer-inner">
+        <small>© 2026 John Lhester Arco. All rights reserved.</small>
+        <a class="to-top" href="#home" aria-label="Back to top">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19V5" />
+            <path d="M6 11l6-6 6 6" />
+          </svg>
+        </a>
+      </div>
+    </footer>
   </div>
 
+  <script>
+    const resumeDropdown = document.getElementById('resumeDropdown');
+    const resumeButton = document.getElementById('resumeButton');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('#home, #about, #skills, #projects, #contact');
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    // Mobile Menu Toggle
+    function closeMobileMenu() {
+      if (navToggle && navMenu) {
+        navToggle.classList.remove('is-active');
+        navMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('menu-open');
+      }
+    }
+
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navMenu.classList.toggle('is-open');
+        navToggle.classList.toggle('is-active', isOpen);
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+        document.body.classList.toggle('menu-open', isOpen);
+      });
+    }
+
+    // Smooth scroll when clicking navigation and internal anchor links
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.length > 1) {
+          const targetSection = document.querySelector(href);
+          if (targetSection) {
+            e.preventDefault();
+            closeMobileMenu();
+            history.pushState(null, '', href);
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Active nav link highlight on scroll (Scroll Spy)
+    function setActiveNav(id) {
+      navLinks.forEach((link) => {
+        const href = link.getAttribute('href');
+        const targetId = href ? href.replace(/^.*#/, '') : '';
+        link.classList.toggle('is-active', targetId === id);
+      });
+    }
+
+    if (sections.length && navLinks.length) {
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveNav(entry.target.id);
+            }
+          });
+        },
+        {
+          root: null,
+          rootMargin: '-30% 0px -45% 0px',
+          threshold: 0,
+        }
+      );
+
+      sections.forEach((section) => sectionObserver.observe(section));
+    }
+
+    // Resume dropdown menu is handled in js/main.js
+
+    document.addEventListener('click', (event) => {
+      if (resumeDropdown && !resumeDropdown.contains(event.target)) {
+        closeResumeMenu();
+      }
+      if (navMenu && navToggle && !navMenu.contains(event.target) && !navToggle.contains(event.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeResumeMenu();
+        closeMobileMenu();
+      }
+    });
+
+    // Toast Notification System (Top Right Below Navbar)
+    function showToast(message, type = 'info', duration = 5000) {
+      let container = document.getElementById('toastContainer');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+      }
+
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+
+      let iconSvg = '';
+      if (type === 'success') {
+        iconSvg = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+      } else if (type === 'error') {
+        iconSvg = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+      } else {
+        iconSvg = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+      }
+
+      toast.innerHTML = `
+        <div class="toast-icon">${iconSvg}</div>
+        <div class="toast-content">${message}</div>
+        <button class="toast-close" aria-label="Close alert">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      `;
+
+      container.appendChild(toast);
+
+      const removeToast = () => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, { once: true });
+      };
+
+      toast.querySelector('.toast-close').addEventListener('click', removeToast);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+      });
+
+      if (duration > 0) {
+        setTimeout(removeToast, duration);
+      }
+
+      return toast;
+    }
+
+    const mailParams = new URLSearchParams(window.location.search);
+    const mailState = mailParams.get('mail');
+    const mailReason = mailParams.get('reason');
+
+    if (mailState !== null) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('mail');
+      url.searchParams.delete('reason');
+      url.hash = '#contact';
+      history.replaceState({}, '', url.pathname + url.search + url.hash);
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+
+      if (mailState === 'sent') {
+        showToast('Message sent successfully.', 'success');
+      } else if (mailState === 'failed') {
+        showToast(mailReason ? 'Message could not be sent: ' + mailReason : 'Message could not be sent. Please try again.', 'error', 7000);
+      } else if (mailState === 'error') {
+        showToast('Please complete all fields before sending.', 'error');
+      } else if (mailState === 'config') {
+        showToast('Mail is not configured yet. Add credentials in .env.', 'error');
+      }
+    }
+
+    // Contact Form AJAX Submission with Web3Forms (Client-Side HTTPS API)
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+        if (submitBtn) submitBtn.disabled = true;
+        const activeLoadingToast = showToast('Sending message...', 'info', 0);
+
+        const formData = new FormData(contactForm);
+        formData.append('access_key', 'cbe22c32-c713-4e0d-82ff-d4e02c2ee7fb');
+
+        try {
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+          });
+          const result = await response.json();
+
+          if (activeLoadingToast && activeLoadingToast.parentNode) {
+            activeLoadingToast.parentNode.removeChild(activeLoadingToast);
+          }
+
+          if (result.success) {
+            showToast('Message sent successfully.', 'success', 5000);
+            contactForm.reset();
+          } else {
+            showToast('Web3Forms Error: ' + (result.message || 'Failed'), 'error', 6000);
+            contactForm.submit();
+          }
+        } catch (err) {
+          if (activeLoadingToast && activeLoadingToast.parentNode) {
+            activeLoadingToast.parentNode.removeChild(activeLoadingToast);
+          }
+          showToast('Network error. Submitting via server fallback...', 'info', 3000);
+          contactForm.submit();
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    }
+  </script>
   <div id="cursor-spotlight"></div>
   <canvas id="bg-canvas"></canvas>
   <script src="js/main.js" defer></script>
